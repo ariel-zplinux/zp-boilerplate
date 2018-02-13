@@ -19,7 +19,22 @@ io.on('connect', (socket) => {
     );
 });
 
-nextApp.prepare().then( () => {
+nextApp.prepare().then( () => { 
+    app.get('/about', (req, res) => {
+        var fs = require('fs');
+  
+        fs.readFile('README.md', 'utf8', function (err, data) {
+          const actualPage = '/about'
+          const queryParams = { data };
+
+          if (err) {
+            console.log('err');
+            return nextHandler(req, res);
+          }
+          nextApp.render(req, res, actualPage, queryParams)
+        });
+      });
+
     app.get('*', (req, res) => {
         return nextHandler(req, res);
     });
