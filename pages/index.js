@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import io from 'socket.io-client';
 
+import Layout from '../components/Layout.js';
+
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -11,12 +13,12 @@ class Index extends Component {
     }
 
     static getInitialProps(context) {
-        console.log(context);
+        // console.log(context);
 
         const promise = new Promise((resolve, reject) => {
             setTimeout(() => {
                 const props = {
-                    appName: 'Zp React'
+                    appName: 'Zp Boilerplate'
                 };
 
                 resolve(props);
@@ -38,13 +40,13 @@ class Index extends Component {
     }
 
     render() {
-        const hello = this.state.hello ? this.state.hello : "LOADING FROM WEBSOCKET";
+        const hello = this.state.hello ? this.state.hello : "== LOADING FROM WEBSOCKET ==";
 
         return (
-            <div>
-                Welcome to { this.props.appName }
-                <h2> { hello } </h2>
-            </div>
+            <Layout> 
+                <p> Welcome to { this.props.appName } </p>
+                <p> { hello } </p>
+            </Layout>
         );
     }
 }
