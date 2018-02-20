@@ -4,10 +4,10 @@ const io = require('socket.io')(server);
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
-const nextApp = next({dev});
+const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
-let port = 3000;
+const port = 3000;
 
 io.on('connect', (socket) => {
     setTimeout(
@@ -15,25 +15,42 @@ io.on('connect', (socket) => {
             socket.emit('now', {
                 message: 'Shalom'
             });
-        }, 2000
+        }, 1000
     );
 });
 
-nextApp.prepare().then( () => { 
+nextApp.prepare().then(() => {
     app.get('/about', (req, res) => {
-        var fs = require('fs');
-  
-        fs.readFile('README.md', 'utf8', function (err, data) {
-          const actualPage = '/about'
-          const queryParams = { data };
+        const fs = require('fs');
 
-          if (err) {
-            console.log('err');
-            return nextHandler(req, res);
-          }
-          nextApp.render(req, res, actualPage, queryParams)
+        fs.readFile('README.md', 'utf8', function (err, data) {
+            const actualPage = '/about'
+            const queryParams = { data };
+
+            if (err) {
+                console.error(err);
+                return nextHandler(req, res);
+            }
+            nextApp.render(req, res, actualPage, queryParams)
         });
-      });
+    });
+
+    app.get('/api/files/README', (req, res) => {
+        const fs = require('fs');
+
+        fs.readFile('README.md', 'utf8', function (err, data) {
+            const queryParams = { data };
+
+            if (err) {
+                console.error(err);
+                return nextHandler(req, res);
+            }
+
+            res.json({
+                data: queryParams
+            });
+        });
+    })
 
     app.get('*', (req, res) => {
         return nextHandler(req, res);
