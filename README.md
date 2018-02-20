@@ -1,7 +1,6 @@
-Zp Boilerplate
+## Zp Boilerplate
 
 The purpose of this boilerplate is to start new projects using a React stack.
-
 
 ## Stack
 
@@ -17,7 +16,7 @@ The purpose of this boilerplate is to start new projects using a React stack.
 
 - SocketIo
 
-### Stable
+### TODO
 
 - Redux
 
@@ -26,6 +25,10 @@ The purpose of this boilerplate is to start new projects using a React stack.
 - Mongo
 
 - Docker
+
+- React Native
+
+- Testing
 
 ## Instructions
 

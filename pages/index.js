@@ -12,22 +12,13 @@ class Index extends Component {
         }
     }
 
+    // Next lifecycle
+
     static getInitialProps(context) {
-        // console.log(context);
-
-        const promise = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const props = {
-                    appName: 'Zp Boilerplate'
-                };
-
-                resolve(props);
-            }, 0);
-        });
-
-        return promise;
+        return Promise.resolve({appName: 'Zp Boilerplate'});
     }
 
+    // React lifecycle
 
     componentDidMount() {
         this.socket = io();
@@ -39,13 +30,36 @@ class Index extends Component {
         });
     }
 
+    // Render
+    
     render() {
         const hello = this.state.hello ? this.state.hello : "== LOADING FROM WEBSOCKET ==";
 
         return (
-            <Layout> 
-                <p> Welcome to { this.props.appName } </p>
-                <p> { hello } </p>
+            <Layout>
+                <div className="zp">
+                    <p className="zp"> { hello } </p>
+                    <hr className="zp" />
+                    <p className="zp"> Welcome to { this.props.appName } </p>
+                </div>
+                <style jsx global>{`
+                    hr.zp {
+                        border-top: 1px solid #8c8b8b;
+                        padding-top: 2px;
+                        padding-bottom: 2px;
+                        border-bottom: 1px solid #8c8b8b;
+                    }
+
+                    p.zp {
+                        text-align: center;
+                    }
+
+                    div.zp {
+                        max-width: 400px;
+                        margin: 0 auto;
+                    }
+                `}
+                </style>
             </Layout>
         );
     }
