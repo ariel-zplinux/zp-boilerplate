@@ -1,7 +1,14 @@
 import { Component } from 'react';
 import Markdown from 'react-markdown'
+import {
+    Divider
+  } from 'semantic-ui-react'
 
-import Layout from '../components/Layout.js';
+import Layout from '../components/ui/Layout.js';
+import Responsive from '../hoc/ui/Responsive.js';
+
+
+
 
 class About extends Component {
     constructor(props) {
@@ -92,48 +99,53 @@ class About extends Component {
             this.state.from ? this.state.from : '== NOT LOADED ==';
         return (
             <Layout> 
-                <div className="markdown zp"> 
-                    <p className="zp"> { hello } </p>
-    
-                    <hr className="zp" />
-                
-                    <Markdown source={ sourceMD } />
-                </div>
-                <style jsx global>{`
-                    .markdown {
-                        font-family: 'Arial';
-                    }
+                <Responsive>
+                    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css' />
 
-                    .markdown a {
-                        text-decoration: none;
-                        color: green;
-                    }
+                    <div className="markdown zp">
+                        <p className="zp"> {hello} </p>
 
-                    .markdown a:hover {
-                        opacity: 0.6;
-                    }
+                        <Divider
+                            as='h4'
+                            className='header'
+                            horizontal
+                            style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
+                            <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
+                        </Divider>
 
-                    .markdown h3, h2, h1 {
-                        margin: 15px 0;
-                        padding: 0;
-                    }
+                        <Markdown source={sourceMD} />
+                    </div>
+                    <style jsx global>{`
+                        .markdown {
+                            font-family: 'Arial';
+                        }
 
-                    hr.zp {
-                        border-top: 1px solid #8c8b8b;
-                        padding-top: 2px;
-                        padding-bottom: 2px;
-                        border-bottom: 1px solid #8c8b8b;
-                    }
+                        .markdown a {
+                            text-decoration: none;
+                            color: green;
+                        }
 
-                    p.zp {
-                        text-align: center;
-                    }
+                        .markdown a:hover {
+                            opacity: 0.6;
+                        }
 
-                    div.zp {
-                        max-width: 400px;
-                        margin: 0 auto;
-                    }
-                `}</style>
+                        .markdown h3, h2, h1 {
+                            margin: 15px 0;
+                            padding: 0;
+                        }
+
+                        p.zp {
+                            text-align: center;
+                            padding-top: 5px;
+                        }
+
+                        div.zp {
+                            max-width: 80%;
+                            margin: 0 auto;
+                        }
+                    `}</style>
+
+                </Responsive>
             </Layout>
         );
     }

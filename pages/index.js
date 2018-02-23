@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import io from 'socket.io-client';
 
-import Layout from '../components/Layout.js';
+import Layout from '../components/ui/Layout.js';
 
 class Index extends Component {
     constructor(props) {
