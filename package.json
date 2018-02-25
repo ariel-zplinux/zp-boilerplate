@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node server",
-    "build": "next dev"
+    "build": "next build",
+    "prod": "NODE_ENV=production node server"
   },
   "keywords": [
     "boilerplate",
