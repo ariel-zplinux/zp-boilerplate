@@ -1,14 +1,17 @@
 import { Component } from 'react';
 import io from 'socket.io-client';
+import { Divider } from 'semantic-ui-react';
 
 import Layout from '../components/ui/Layout.js';
+import Responsive from '../hoc/ui/Responsive.js';
+import Status from '../components/ui/Status.js';
 
 class Index extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            hello: null
+            status: null
         }
     }
 
@@ -25,41 +28,60 @@ class Index extends Component {
 
         this.socket.on('now', (data) => {
             this.setState({
-                hello: data.message
+                status: data.message
             })
         });
+    }
+
+    // Functions
+
+    static prepareStatus(state) {
+        if (state.status) {
+            return {
+                loading: false,
+                statusTitle: 'LOADED FROM WEBSOCKET',
+                statusContent: state.status
+            };
+        }
+        return {
+            loading: true,
+            statusTitle: 'LOADING FROM WEBSOCKET',
+            statusContent: 'We are fetching that content for you.'
+        };
     }
 
     // Render
     
     render() {
-        const hello = this.state.hello ? this.state.hello : "== LOADING FROM WEBSOCKET ==";
+        const {loading, statusTitle, statusContent} = Index.prepareStatus(this.state);
 
         return (
             <Layout>
-                <div className="zp">
-                    <p className="zp"> { hello } </p>
-                    <hr className="zp" />
-                    <p className="zp"> Welcome to { this.props.appName } </p>
-                </div>
-                <style jsx global>{`
-                    hr.zp {
-                        border-top: 1px solid #8c8b8b;
-                        padding-top: 2px;
-                        padding-bottom: 2px;
-                        border-bottom: 1px solid #8c8b8b;
-                    }
+                <Responsive>
+                    <Status loading={loading} title={statusTitle} content={statusContent} />
+                    <Divider
+                        as='h4'
+                        className='header'
+                        horizontal
+                        style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
+                        Welcome to { this.props.appName }
+                    </Divider>
 
-                    p.zp {
-                        text-align: center;
-                    }
+                    <div className="zp">
+                        <p className="zp"> The purpose of this boilerplate is to start new projects using a React stack.</p>
+                    </div>
+                    <style jsx global>{`
 
-                    div.zp {
-                        max-width: 400px;
-                        margin: 0 auto;
-                    }
-                `}
-                </style>
+                        p.zp {
+                            text-align: left;
+                        }
+
+                        div.zp {
+                            padding-top: 10px;
+                        }
+                    `}
+                    </style>
+                </Responsive>
             </Layout>
         );
     }

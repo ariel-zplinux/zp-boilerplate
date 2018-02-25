@@ -1,13 +1,12 @@
 import { Component } from 'react';
 import Markdown from 'react-markdown'
-import {
-    Divider
-  } from 'semantic-ui-react'
+import { Divider } from 'semantic-ui-react'
 
 import Layout from '../components/ui/Layout.js';
 import Responsive from '../hoc/ui/Responsive.js';
+import Status from '../components/ui/Status.js';
 
-
+import config from '../config/pages/about.js'
 
 
 class About extends Component {
@@ -22,35 +21,36 @@ class About extends Component {
     // Next lifecycle
 
     static getInitialProps(context) {
-        const url = 'http://localhost:3000/api/files/README';
-        // const url = 'http://NOT-HERE-TO-TRIGGER-FETCH-IN-COMPONENT-DID-UPDATE';
+        const url = config.GITHUB_README_URL;
 
+        // TODO handle case with github not accessible ==> call to API endpoint /about ==> returns JSON
+        // const url = 'http://localhost:3000/api/files/README';
+        
         const dataFromServer = context.query && context.query.data;
 
         if (!dataFromServer) {
-            return About.fetchAboutData(url)
-                .then((response) => {
-                    const aboutData = response.data ? { 
-                        aboutData: response.data, 
-                        from: '== LOADED FROM Next getInitialProps (API call) =='
-                    } : {
-                        error: true
-                    };
+            // return About.fetchAboutData(url)
+            //     .then((data) => {
+            //         return { 
+            //             aboutData: data, 
+            //             from: 'LOADED FROM Next getInitialProps (fetch github)'
+            //         };
+            //     })
+            //     .catch(err => {
+            //         console.error(err);
+            //         return Promise.reject({
+            //             error: err,
+            //             from: 'CATCH FROM About.fetchAboutData in  getInitialProps'
+            //         });
+            //     });
 
-                    return aboutData;
-                })
-                .catch(err => {
-                    console.error(err);
-                    return Promise.reject({
-                        error: err,
-                        from: '== CATCH FROM About.fetchAboutData =='
-                    });
-                });
+            // Will fetch after in componentDidMount
+            return true;
         }
 
         return Promise.resolve({
             aboutData: dataFromServer, 
-            from: '== LOADED FROM SERVER (SSR - server routing) =='
+            from: 'LOADED FROM SERVER (SSR - server routing)'
         });
     }
 
@@ -61,17 +61,28 @@ class About extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.aboutData) {
-            About.fetchAboutData('http://localhost:3000/api/files/README')
-                .then((response) => {
-                    this.setState({
-                        aboutData: response.data,
-                        from: '== LOADED FROM React componentDidMount (API CALL) =='
-                    });
+        if (!this.props.aboutData && !this.state.loading) {
+            const url = config.GITHUB_README_URL;
+
+            setTimeout(() => {
+                this.setState({loading: true})
+                }, 0);
+
+            About.fetchAboutData(url)
+                .then((data) => {
+                    setTimeout(() => {
+                        this.setState({
+                            aboutData: data,
+                            from: 'LOADED FROM React componentDidMount (fetch github)'
+                        });
+                    }, 2000);
                 })
                 .catch(err => {
                     console.error(err);
-                    return {err, from: '== ERROR =='};
+                    return Promise.reject({
+                        error: err,
+                        from: 'CATCH FROM About.fetchAboutData in componentDidMount'
+                    });
                 });
         }
     }
@@ -79,12 +90,49 @@ class About extends Component {
     // Functions
 
     static fetchAboutData(AboutUrl) {
-        const url = AboutUrl ? AboutUrl : 'http://localhost:3000/api/files/README';
+        const url = AboutUrl ? AboutUrl : config.GITHUB_README_URL;
 
         return fetch(url)
-            .then((response) => response.json())
-            .then((json) => json.data)
+            .then((response) => {
+                return response.text()
+            })
+            .then((data) => {
+                return data
+            })
             .catch((err) => err);
+    }
+
+    static prepareStatus(state, props) {
+        if (props.from) {
+            return {
+                loading: false,
+                statusTitle: props.from,
+                statusContent: 'Received from Props'
+            };
+        }
+        else if (state.from) {
+            return {
+                loading: false,
+                statusTitle: state.from,
+                statusContent: 'Received from State'
+                
+            };
+        }
+        else if (state.loading) {
+            return {
+                loading: true,
+                statusTitle: 'FETCHING FROM GITHUB',
+                statusContent: 'We are fetching that content for you.'
+            };
+            
+        }
+        else {
+            return {
+                loading: false,
+                statusTitle: 'NOT LOADED',
+                statusContent: 'Neither from Props nor from State'
+            };
+        }
     }
 
     // Render
@@ -92,25 +140,22 @@ class About extends Component {
     render() {
         const sourceMD = this.props.aboutData ? 
                             this.props.aboutData :
-                            (this.state.aboutData ? this.state.aboutData : "NOT FOUND")
+                            (this.state.aboutData ? this.state.aboutData : '')
 
-        const hello = this.props.from ? 
-            this.props.from :
-            this.state.from ? this.state.from : '== NOT LOADED ==';
+        const {loading, statusTitle, statusContent} = About.prepareStatus(this.state, this.props);
+            
         return (
             <Layout> 
                 <Responsive>
-                    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css' />
+                    <Status loading={loading} title={statusTitle} content={statusContent} />
 
                     <div className="markdown zp">
-                        <p className="zp"> {hello} </p>
-
                         <Divider
                             as='h4'
                             className='header'
                             horizontal
                             style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
-                            <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
+                            About - <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
                         </Divider>
 
                         <Markdown source={sourceMD} />
@@ -134,13 +179,7 @@ class About extends Component {
                             padding: 0;
                         }
 
-                        p.zp {
-                            text-align: center;
-                            padding-top: 5px;
-                        }
-
                         div.zp {
-                            max-width: 80%;
                             margin: 0 auto;
                         }
                     `}</style>
