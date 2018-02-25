@@ -37,12 +37,23 @@ An immediate target is my home page.
 ## Instructions
 
 ```shell
-git clone ...
-cd ...
+git clone https://github.com/ariel-zplinux/zp-boilerplate.git
+cd zp-boilerplate
 npm install
+```
+
+In Developement mode
+
+```shell
 npm start
 ```
 
+In production mode
+
+```shell
+npm run build
+npm run prod
+```
 
 ## Resources
 
