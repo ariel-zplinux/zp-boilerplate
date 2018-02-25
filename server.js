@@ -15,7 +15,7 @@ io.on('connect', (socket) => {
             socket.emit('now', {
                 message: 'Shalom'
             });
-        }, 1000
+        }, 2000
     );
 });
 

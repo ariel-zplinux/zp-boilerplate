@@ -2,6 +2,8 @@
 
 The purpose of this boilerplate is to start new projects using a React stack.
 
+An immediate target is my home page.
+
 ## Stack
 
 ### Current
@@ -15,6 +17,8 @@ The purpose of this boilerplate is to start new projects using a React stack.
 - ExpressJs
 
 - SocketIo
+
+- SemanticUI-React
 
 ### TODO
 
@@ -47,5 +51,7 @@ npm start
 - https://learnnextjs.com/
 
 - https://www.udemy.com/react-the-complete-guide-incl-redux/learn/v4/overview
+
+- https://react.semantic-ui.com/layouts/homepage
 
 
