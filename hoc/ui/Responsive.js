@@ -28,7 +28,7 @@ class DesktopContainer extends Component {
                     <Segment inverted style={{ minHeight: '100px', background: '#fff' }} vertical>
                         <Menu
                             fixed={fixed ? 'top' : null}
-                            inverted={!fixed}
+                            inverted
                             pointing={!fixed}
                             secondary={!fixed}
                             size='large'
@@ -37,8 +37,8 @@ class DesktopContainer extends Component {
                                 <Link href='/'><Menu.Item as='a'>Home</Menu.Item></Link>
                                 <Link href='/about'><Menu.Item as='a'>About</Menu.Item></Link>
                                 <Menu.Item position='right'>
-                                    <Button as='a' inverted={!fixed}>Log in</Button>
-                                    <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                                    <Button as='a' >Log in</Button>
+                                    <Button as='a' primary style={{ marginLeft: '0.5em' }}>Sign Up</Button>
                                 </Menu.Item>
                             </Container>
                         </Menu>
