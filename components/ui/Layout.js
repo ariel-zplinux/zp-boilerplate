@@ -13,9 +13,9 @@ const Layout = (props) => (
 )
 
 const layoutStyle = {
-  margin: 20,
-  padding: 20,
-  border: '1px solid #DDD'
+  margin: 0,
+  padding: 0,
+//   border: '1px solid #DDD'
 }
 
 export default Layout

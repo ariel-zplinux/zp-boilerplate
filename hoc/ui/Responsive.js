@@ -56,38 +56,66 @@ DesktopContainer.propTypes = {
 }
 
 class MobileContainer extends Component {
-    state = {}
+    state = {
+        fixed: 'top',
+        visible: false
+    }
 
     handleToggle = () => this.setState({ sidebarOpened: !this.state.sidebarOpened })
 
+    hideFixedMenu = () => {
+        console.log('=== onBottomPassedReverse')
+   
+        this.setState({fixed: null})
+    }
+    showFixedMenu = () => {
+        console.log('=== onBottomPassed')
+
+        this.setState({fixed: 'top'})
+
+    }
+
+    toggleVisibility = () => this.setState({ visible: !this.state.visible })
+
     render() {
         const { children } = this.props
-        const { sidebarOpened } = this.state
+        const { sidebarOpened, fixed, visible } = this.state
 
         return (
             <Responsive {...Responsive.onlyMobile}>
-                <Sidebar.Pushable>
-                    <Sidebar as={Menu} animation='uncover' inverted vertical visible={sidebarOpened} width='thin'>
-                        <Link href='/'><Menu.Item as='a'>Home</Menu.Item></Link>
-                        <Link href='/about'><Menu.Item as='a'>About</Menu.Item></Link>
+
+                <Menu fixed={fixed}  style={{background: '#0f5866', padding: '5px 0'}}>
+                    <Menu.Item onClick={this.toggleVisibility}>
+                        <Icon name='sidebar'/>
+                    </Menu.Item>
+                    <Menu.Item position='right'>
+                        <Button as='a' >Log in</Button>
+                        <Button as='a' primary style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                    </Menu.Item>
+                </Menu>
+                {/* <Button onClick={this.toggleVisibility}>Toggle Visibility</Button> */}
+                <Sidebar.Pushable as={Segment} style={{marginTop: '70px'}}>
+                    <Sidebar as={Menu} fixed='left' animation='uncover' width='thin' visible={visible} icon='labeled' vertical inverted>
+                        <Link href='/'>
+                            <Menu.Item name='home'>
+                                <Icon name='home' />
+                                Home
+                            </Menu.Item>
+                        </Link>
+                        <Link href='/about'>                            
+                        <Menu.Item name='about'>
+                            <Icon name='github' />
+                            About
+                        </Menu.Item>
+                        </Link>
                     </Sidebar>
+                    <Sidebar.Pusher  dimmed={visible}>
+                        <Segment basic>
+                            <div style={mobileChildrenStyle}>
+                                {children}
+                            </div>
 
-                    <Sidebar.Pusher dimmed={sidebarOpened} style={{ minHeight: '100vh' }}>
-                        <Segment inverted textAlign='center' style={{ minHeight: 100,  background: '#fff', padding: '1em 0em' }} vertical>
-                            <Container style={{background: '#0f5866'}}>
-                                <Menu inverted pointing secondary size='large'>
-                                    <Menu.Item onClick={this.handleToggle}>
-                                        <Icon name='sidebar'/>
-                                    </Menu.Item>
-                                    <Menu.Item position='right'>
-                                        <Button as='a' inverted>Log in</Button>
-                                        <Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-                                    </Menu.Item>
-                                </Menu>
-                            </Container>
                         </Segment>
-
-                        {children}
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </Responsive>
@@ -97,6 +125,10 @@ class MobileContainer extends Component {
 
 MobileContainer.propTypes = {
     children: PropTypes.node,
+}
+
+const mobileChildrenStyle = { 
+    marginTop: '50px'
 }
 
 const ResponsiveContainer = ({ children }) => (
