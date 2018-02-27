@@ -58,26 +58,26 @@ class Index extends Component {
         return (
             <Layout>
                 <Responsive>
-                    <Status loading={loading} title={statusTitle} content={statusContent} />
-                    <Divider
-                        as='h4'
-                        className='header'
-                        horizontal
-                        style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
-                        Welcome to { this.props.appName }
-                    </Divider>
-
                     <div className="zp">
+                        <Status loading={loading} title={statusTitle} content={statusContent} />
+
+                        <Divider
+                            as='h4'
+                            className='header'
+                            horizontal
+                            style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
+                            Welcome to { this.props.appName }
+                        </Divider>
+
                         <p className="zp"> The purpose of this boilerplate is to start new projects using a React stack.</p>
                     </div>
                     <style jsx global>{`
-
                         p.zp {
                             text-align: left;
                         }
 
                         div.zp {
-                            padding-top: 10px;
+                            padding: 15px;
                         }
                     `}
                     </style>

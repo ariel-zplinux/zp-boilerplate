@@ -57,6 +57,16 @@ npm run build
 npm run prod
 ```
 
+## Screenshot
+
+### Desktop
+
+![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/master/static/assets/images/screenshot/Desktop.png "zp-boilerplate on desktop")
+
+### Mobile
+
+![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/master/static/assets/images/screenshot/Mobile.png "zp-boilerplate on mobile")
+
 ## Resources
 
 - https://medium.com/@markcolling/integrating-socket-io-with-next-js-33c4c435065e

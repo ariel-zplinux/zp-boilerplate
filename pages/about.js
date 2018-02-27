@@ -147,9 +147,9 @@ class About extends Component {
         return (
             <Layout> 
                 <Responsive>
-                    <Status loading={loading} title={statusTitle} content={statusContent} />
-
                     <div className="markdown zp">
+                        <Status loading={loading} title={statusTitle} content={statusContent} />
+
                         <Divider
                             as='h4'
                             className='header'
@@ -163,6 +163,7 @@ class About extends Component {
                     <style jsx global>{`
                         .markdown {
                             font-family: 'Arial';
+                            padding: 15px
                         }
 
                         .markdown a {
