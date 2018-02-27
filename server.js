@@ -1,13 +1,19 @@
 const app = require('express')();
+
+// collection of middlewares for server hardening 
+app.use(require('helmet')());
+
 const server = require('http').Server(app);
+
 const io = require('socket.io')(server);
 const next = require('next');
+
+const config = require('./config/server.js');
+const { PORT } = config;
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
-
-const port = 3000;
 
 io.on('connect', (socket) => {
     setTimeout(
@@ -56,8 +62,9 @@ nextApp.prepare().then(() => {
         return nextHandler(req, res);
     });
 
-    server.listen(port, (err) => {
+    server.listen(PORT, (err) => {
         if (err) throw err;
-        console.log('Listen on port ', port);
+
+        console.log('-=======================================-','\n-=  Welcome to zp-boilerplate server   =-','\n-=======================================-', '\n\nListen on PORT ', PORT);
     });
 })

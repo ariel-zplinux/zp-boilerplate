@@ -16,6 +16,8 @@ An immediate target is my home page.
 
 - ExpressJs
 
+- Helmet
+
 - SocketIo
 
 - SemanticUI-React
@@ -48,7 +50,7 @@ In Developement mode
 npm start
 ```
 
-In production mode
+In Production mode
 
 ```shell
 npm run build
@@ -65,4 +67,5 @@ npm run prod
 
 - https://react.semantic-ui.com/layouts/homepage
 
+- https://expressjs.com/en/advanced/best-practice-security.html
 
