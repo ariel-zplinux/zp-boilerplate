@@ -1,10 +1,15 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import Markdown from 'react-markdown'
 import { Divider } from 'semantic-ui-react'
 
 import Layout from '../components/ui/Layout.js';
 import Responsive from '../hoc/ui/Responsive.js';
 import Status from '../components/ui/Status.js';
+
+import StateManager from '../hoc/state/StateManager.js'
+
+import * as actions from '../store/actions/pages/index.js';
 
 import config from '../config/pages/about.js'
 
@@ -61,7 +66,9 @@ class About extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.aboutData && !this.state.loading) {
+        const redux = true;
+
+        if (!this.props.aboutData && !this.state.loading && !redux) {
             const url = config.GITHUB_README_URL;
 
             setTimeout(() => {
@@ -84,6 +91,10 @@ class About extends Component {
                         from: 'CATCH FROM About.fetchAboutData in componentDidMount'
                     });
                 });
+        }
+
+        if (redux) {
+            this.props.onDataLoading('SHALOM');
         }
     }
 
@@ -158,6 +169,7 @@ class About extends Component {
                             About - <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
                         </Divider>
 
+                        <h1> DATA received from store: {this.props.data}</h1>
                         <Markdown source={sourceMD} />
                     </div>
                     <style jsx global>{`
@@ -191,4 +203,16 @@ class About extends Component {
     }
 }
 
-export default About;
+const mapStateToProps = (state) => {
+    return {
+        data: state.pages.about.data
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDataLoading: (data) => dispatch(actions.loadAboutPageData(data))
+    };
+};
+
+export default StateManager(connect(mapStateToProps, mapDispatchToProps)(About));

@@ -1,0 +1,1 @@
+export { loadAboutPageData } from './about.js';
