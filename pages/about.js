@@ -205,7 +205,7 @@ class About extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.pages.about.data
+        data: state.page.data
     };
 };
 

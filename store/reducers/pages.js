@@ -1,21 +1,13 @@
-import * as actionTypes from '../../../config/store/actions/types.js';
+import * as actionTypes from '../../config/store/actions/types.js';
 
 const initialState = {
-    pages: {
-        about: {
-            data: null
-        }
-    }
+    data: null
 };
 
 const loadAboutPageData = (state, action) => {
     const updated = {
-        pages: {
-            about: {
-                data: action.data
-            }
-        }
-    }
+        data: action.data
+    };
 
     return { ...state, ...updated };
 };

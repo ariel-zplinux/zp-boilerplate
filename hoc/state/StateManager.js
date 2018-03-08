@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
-import reducer from '../../store/reducers/pages/about.js'
+import pageReducers from '../../store/reducers/pages.js'
 
-const store = createStore(reducer);
+const rootReducer = combineReducers({
+    page: pageReducers
+});
+
+const store = createStore(rootReducer);
 
 const StateManager = (App) => {
     class StateManagerClass extends Component {
@@ -13,13 +17,8 @@ const StateManager = (App) => {
             super(props);
     
             this.state = {
-                pages: {
-                    about: {
-                        data: null
-                    },
-                    index: {
-                        data: null                    
-                    }
+                page: {
+                    data: null                    
                 }
             };
         }
