@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import pageReducers from '../../store/reducers/pages.js'
 
@@ -9,7 +10,10 @@ const rootReducer = combineReducers({
     page: pageReducers
 });
 
-const store = createStore(rootReducer);
+const store = createStore(
+    rootReducer, 
+    applyMiddleware(thunk)
+);
 
 const StateManager = (App) => {
     class StateManagerClass extends Component {

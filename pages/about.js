@@ -211,7 +211,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onDataLoading: (data) => dispatch(actions.loadAboutPageData(data))
+        onDataLoading: (data) => dispatch(actions.loadingAboutPageData(data))
     };
 };
 

@@ -1,1 +1,1 @@
-export { loadAboutPageData } from './about.js';
+export { loadingAboutPageData } from './about.js';
