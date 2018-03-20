@@ -6,7 +6,8 @@ const initialState = {
 
 const loadAboutPageData = (state, action) => {
     const updated = {
-        data: action.data
+        aboutData: action.data,
+        from: 'LOADED FROM Action loadAboutPageData (fetch github)',
     };
 
     return { ...state, ...updated };

@@ -9,12 +9,12 @@ import Status from '../components/ui/Status.js';
 
 import StateManager from '../hoc/state/StateManager.js'
 
-import * as actions from '../store/actions/pages/index.js';
+import * as actions from '../store/actions/index.js';
 
 import config from '../config/pages/about.js'
 
 
-class About extends Component {
+export class About extends Component {
     constructor(props) {
         super(props);
 
@@ -66,11 +66,9 @@ class About extends Component {
     }
 
     componentDidMount() {
-        const redux = true;
+        const url = config.GITHUB_README_URL;
 
-        if (!this.props.aboutData && !this.state.loading && !redux) {
-            const url = config.GITHUB_README_URL;
-
+        if (!this.props.aboutData && !this.state.loading && !this.props.redux) {
             setTimeout(() => {
                 this.setState({loading: true})
                 }, 0);
@@ -93,8 +91,12 @@ class About extends Component {
                 });
         }
 
-        if (redux) {
-            this.props.onDataLoading('SHALOM');
+        if (this.props.redux) {
+            setTimeout(() => {
+                this.setState({loading: true})
+                }, 0);
+
+            this.props.onDataLoading(url);
         }
     }
 
@@ -114,7 +116,14 @@ class About extends Component {
     }
 
     static prepareStatus(state, props) {
-        if (props.from) {
+        if (props.from && props.redux) {
+            return {
+                loading: false,
+                statusTitle: props.from,
+                statusContent: 'Received from Reducer'
+            };
+        }
+        else if (props.from && !redux) {
             return {
                 loading: false,
                 statusTitle: props.from,
@@ -152,7 +161,6 @@ class About extends Component {
         const sourceMD = this.props.aboutData ? 
                             this.props.aboutData :
                             (this.state.aboutData ? this.state.aboutData : '')
-
         const {loading, statusTitle, statusContent} = About.prepareStatus(this.state, this.props);
             
         return (
@@ -169,7 +177,6 @@ class About extends Component {
                             About - <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
                         </Divider>
 
-                        <h1> DATA received from store: {this.props.data}</h1>
                         <Markdown source={sourceMD} />
                     </div>
                     <style jsx global>{`
@@ -205,13 +212,15 @@ class About extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.page.data
+        aboutData: state.page.aboutData,
+        from: state.page.from,
+        redux: true
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onDataLoading: (data) => dispatch(actions.loadingAboutPageData(data))
+        onDataLoading: (url) => dispatch(actions.loadingAboutPageData(url))
     };
 };
 

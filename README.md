@@ -22,9 +22,9 @@ An immediate target is my home page.
 
 - SemanticUI-React
 
-### TODO
-
 - Redux
+
+### TODO
 
 - Firebase
 

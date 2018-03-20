@@ -1,0 +1,1 @@
+export { loadingAboutPageData } from './pages/about.js';
