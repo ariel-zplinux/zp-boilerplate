@@ -24,6 +24,8 @@ An immediate target is my home page.
 
 - Redux
 
+- Redux-saga
+
 ### TODO
 
 - Firebase
