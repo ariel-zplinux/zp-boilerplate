@@ -7,6 +7,6 @@ import Status from './Status.js';
 describe('<Status />', () => {
     it('Should contains one Message', () => {
         const wrapper = shallow(<Status/>);
-        expect(wrapper.find(Message)).toHaveLength(2);
+        expect(wrapper.find(Message)).toHaveLength(1);
     })
 });
