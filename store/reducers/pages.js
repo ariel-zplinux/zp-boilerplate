@@ -1,12 +1,13 @@
 import * as actionTypes from '../../config/store/actions/types.js';
 
 const initialState = {
-    data: null
+    data: null,
+    from: null
 };
 
 const loadAboutPageData = (state, action) => {
     const updated = {
-        aboutData: action.data,
+        data: action.data,
         from: 'LOADED FROM Action loadAboutPageData (fetch github)',
     };
 

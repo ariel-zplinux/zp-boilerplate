@@ -19,7 +19,7 @@ export class About extends Component {
         super(props);
 
         this.state = {
-            aboutData: null
+            data: null
         };
     }
 
@@ -37,7 +37,7 @@ export class About extends Component {
             // return About.fetchAboutData(url)
             //     .then((data) => {
             //         return { 
-            //             aboutData: data, 
+            //             data: data, 
             //             from: 'LOADED FROM Next getInitialProps (fetch github)'
             //         };
             //     })
@@ -54,7 +54,7 @@ export class About extends Component {
         }
 
         return Promise.resolve({
-            aboutData: dataFromServer, 
+            data: dataFromServer, 
             from: 'LOADED FROM SERVER (SSR - server routing)'
         });
     }
@@ -68,7 +68,7 @@ export class About extends Component {
     componentDidMount() {
         const url = config.GITHUB_README_URL;
 
-        if (!this.props.aboutData && !this.state.loading && !this.props.redux) {
+        if (!this.props.data && !this.state.loading && !this.props.redux) {
             setTimeout(() => {
                 this.setState({loading: true})
                 }, 0);
@@ -77,7 +77,7 @@ export class About extends Component {
                 .then((data) => {
                     setTimeout(() => {
                         this.setState({
-                            aboutData: data,
+                            data: data,
                             from: 'LOADED FROM React componentDidMount (fetch github)'
                         });
                     }, 2000);
@@ -158,9 +158,9 @@ export class About extends Component {
     // Render
 
     render() {
-        const sourceMD = this.props.aboutData ? 
-                            this.props.aboutData :
-                            (this.state.aboutData ? this.state.aboutData : '')
+        const sourceMD = this.props.data ? 
+                            this.props.data :
+                            (this.state.data ? this.state.data : '')
         const {loading, statusTitle, statusContent} = About.prepareStatus(this.state, this.props);
             
         return (
@@ -212,7 +212,7 @@ export class About extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        aboutData: state.page.aboutData,
+        data: state.page.data,
         from: state.page.from,
         redux: true
     };

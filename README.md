@@ -26,6 +26,10 @@ An immediate target is my home page.
 
 - Redux-saga
 
+- Jest
+
+- Enzyme
+
 ### TODO
 
 - Firebase
@@ -36,7 +40,7 @@ An immediate target is my home page.
 
 - React Native
 
-- Testing
+- End to end Testing
 
 ## Instructions
 
@@ -82,3 +86,5 @@ npm run prod
 - https://expressjs.com/en/advanced/best-practice-security.html
 
 - https://medium.com/front-end-hacking/next-js-redux-integration-3ab1a9ca5e1d
+
+- https://github.com/zeit/next.js/tree/canary/examples/with-jest
