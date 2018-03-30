@@ -63,6 +63,15 @@ npm run build
 npm run prod
 ```
 
+with Docker
+
+```shell
+git clone https://github.com/ariel-zplinux/zp-boilerplate.git
+cd zp-boilerplate
+docker build -t "zp-boilerplate" .
+docker run -p 4000:4000 "zp-boilerplate" 
+```
+
 ## Screenshot
 
 ### Desktop
