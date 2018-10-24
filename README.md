@@ -32,6 +32,8 @@ An immediate target is my home page.
 
 - Docker
 
+- Editorconfig
+
 ### TODO
 
 - Firebase
