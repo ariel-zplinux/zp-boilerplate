@@ -7,29 +7,31 @@ const boot = require('loopback-boot');
 const app = module.exports = loopback();
 
 app.start = function() {
-    // start the web server
-    return app.listen(function() {
-        app.emit('started');
-        const baseUrl = app.get('url').replace(/\/$/, '');
-        console.log('Web server listening at: %s', baseUrl);
-        if (app.get('loopback-component-explorer')) {
-        const explorerPath = app.get('loopback-component-explorer').mountPath;
-        console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-        }
-    });
+  // start the web server
+  return app.listen(function() {
+    app.emit('started');
+    const baseUrl = app.get('url').replace(/\/$/, '');
+    console.log('Web server listening at: %s', baseUrl);
+    if (app.get('loopback-component-explorer')) {
+      const explorerPath = app.get('loopback-component-explorer').mountPath;
+      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+    }
+  });
 };
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
 boot(app, __dirname, function(err) {
-    if (err) throw err;
+  if (err) throw err;
 
-    // start the server if `$ node server.js`
-    if (require.main === module)
-        app.start();
+  // start the server if `$ node server.js`
+  if (require.main === module) {
+    app.start();
+  }
 });
-  
-// collection of middlewares for server hardening 
+
+// collection of middlewares for server hardening
+// should be called by Loopback in config files now
 // app.use(require('helmet')());
 
 const server = require('http').Server(app);
@@ -45,55 +47,39 @@ const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
 io.on('connect', (socket) => {
-    setTimeout(
-        () => {
-            socket.emit('now', {
-                message: 'Shalom'
-            });
-        }, 2000
-    );
+  setTimeout(
+    () => {
+      socket.emit('now', {
+        message: 'Shalom'
+      });
+    }, 2000
+  );
 });
 
 nextApp.prepare().then(() => {
-    app.get('/about', (req, res) => {
-        const fs = require('fs');
+  app.get('/about', (req, res) => {
+    const fs = require('fs');
 
-        fs.readFile('README.md', 'utf8', function (err, data) {
-            const actualPage = '/about'
-            const queryParams = { data };
+    fs.readFile('README.md', 'utf8', function (err, data) {
+      const actualPage = '/about'
+      const queryParams = { data };
 
-            if (err) {
-                console.error(err);
-                return nextHandler(req, res);
-            }
-            nextApp.render(req, res, actualPage, queryParams)
-        });
-    });
-
-    app.get('/api/files/README', (req, res) => {
-        const fs = require('fs');
-
-        fs.readFile('README.md', 'utf8', function (err, data) {
-            const queryParams = { data };
-
-            if (err) {
-                console.error(err);
-                return nextHandler(req, res);
-            }
-
-            res.json({
-                data: queryParams
-            });
-        });
-    })
-
-    app.get('*', (req, res) => {
+      if (err) {
+        console.error(err);
         return nextHandler(req, res);
+      }
+      nextApp.render(req, res, actualPage, queryParams)
     });
+  });
 
-    server.listen(PORT, (err) => {
-        if (err) throw err;
+  // Regexp to have Next handle all other routes that Loopback's ones (starts by /api)
+  app.get(/^(?!\/api).*/, (req, res) => {
+    return nextHandler(req, res);
+  });
 
-        console.log('-=======================================-','\n-=  Welcome to zp-boilerplate server   =-','\n-=======================================-', '\n\nListen on PORT ', PORT);
-    });
+  server.listen(PORT, (err) => {
+    if (err) throw err;
+
+    console.log('-=======================================-', '\n-=  Welcome to zp-boilerplate server   =-', '\n-=======================================-', '\n\nListen on PORT ', PORT);
+  });
 })
