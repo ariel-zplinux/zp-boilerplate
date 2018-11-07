@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "dev": "node server",
+    "dev": "node server/server",
     "build": "next build",
-    "prod": "NODE_ENV=production node server"
+    "prod": "NODE_ENV=production node server/server"
   },
   "keywords": [
     "boilerplate",
