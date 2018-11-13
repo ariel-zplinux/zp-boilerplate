@@ -1,6 +1,6 @@
 ## Zp Boilerplate
 
-The purpose of this boilerplate is to start new projects using a React stack.
+The purpose of this boilerplate is to start new projects using a Node/React stack.
 
 An immediate target is my home page.
 
@@ -10,11 +10,13 @@ An immediate target is my home page.
 
 - ReactJs
 
-- NextJs 
+- NextJs
 
 - NodeJs
 
 - ExpressJs
+
+- Loopback
 
 - Helmet
 
@@ -38,7 +40,7 @@ An immediate target is my home page.
 
 - Firebase
 
-- Mongo
+- Mongo (through Loopback)
 
 - React Native
 
@@ -71,7 +73,7 @@ with Docker
 git clone https://github.com/ariel-zplinux/zp-boilerplate.git
 cd zp-boilerplate
 docker build -t "zp-boilerplate" .
-docker run -p 4000:4000 "zp-boilerplate" 
+docker run -p 4000:4000 "zp-boilerplate"
 ```
 
 ## Screenshot
