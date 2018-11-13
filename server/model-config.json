@@ -13,6 +13,9 @@
       "./mixins"
     ]
   },
+  "Post": {
+    "dataSource": "db"
+  },
   "User": {
     "dataSource": "db"
   },
