@@ -54,26 +54,38 @@ cd zp-boilerplate
 npm install
 ```
 
-In Developement mode
+### In Developement mode
 
 ```shell
 npm start
 ```
 
-In Production mode
+### In Production mode
 
 ```shell
 npm run build
 npm run prod
 ```
 
-with Docker
+### With Docker in local
 
 ```shell
 git clone https://github.com/ariel-zplinux/zp-boilerplate.git
 cd zp-boilerplate
+# build dev mode
 docker build -t "zp-boilerplate" .
+# build prod mode
+# docker build -t "zp-boilerplate:prod" -f Dockerfile.prod .
 docker run -p 4000:4000 "zp-boilerplate"
+```
+
+### With Docker from Docker Hub in production mode 
+
+Docker Hub not updated continuously.
+
+```shell
+docker pull zplinuxoss/zp-boilerplate:prod
+docker run -p 4000:4000 zplinuxoss/zp-boilerplate:prod
 ```
 
 ## Screenshot
