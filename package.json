@@ -1,7 +1,7 @@
 {
   "name": "zp-mess-boilerplate",
   "version": "1.0.0",
-  "description": "Zp messenger boilerplate (Node / Express / Next / React / Redux)",
+  "description": "Zp boilerplate (Node / Express / Loopback / Next / React / Redux)",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
@@ -14,11 +14,16 @@
     "nodejs",
     "reactjs",
     "nextjs",
-    "redux"
+    "redux",
+    "loopback"
   ],
   "author": "Ariel Biton",
   "license": "ISC",
-  "dependencies": {
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ariel-zplinux/zp-boilerplate.git"
+  },
+    "dependencies": {
     "compression": "^1.7.3",
     "cors": "^2.8.5",
     "express": "^4.16.3",
