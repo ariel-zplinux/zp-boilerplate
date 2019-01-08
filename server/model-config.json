@@ -39,7 +39,7 @@
     "public": false
   },
   "Message": {
-    "dataSource": "mongo",
+    "dataSource": "db",
     "public": true
   }
 }
