@@ -18,6 +18,8 @@ An immediate target is my home page.
 
 - Loopback
 
+- MongoDb (through Loopback)
+
 - Helmet
 
 - SocketIo
@@ -36,11 +38,11 @@ An immediate target is my home page.
 
 - Editorconfig
 
+- Dotenv
+
 ### TODO
 
 - Firebase
-
-- Mongo (through Loopback)
 
 - React Native
 
@@ -79,7 +81,7 @@ docker build -t "zp-boilerplate" .
 docker run -p 4000:4000 "zp-boilerplate"
 ```
 
-### With Docker from Docker Hub in production mode 
+### With Docker from Docker Hub in production mode
 
 Docker Hub not updated continuously.
 
@@ -87,6 +89,22 @@ Docker Hub not updated continuously.
 docker pull zplinuxoss/zp-boilerplate:prod
 docker run -p 4000:4000 zplinuxoss/zp-boilerplate:prod
 ```
+
+## Configuration
+
+### Environment variables
+
+Credentials are supposed to be stored in environment variables.
+
+Sample in `.env.template`, actual environment variables in `.env`.
+
+`.env` is git-ignored by default.
+
+### Mongo connector
+
+If `DB_MONGO_HOST` environment variable is set, default datasource (named 'db') will be persistent and using a MongoDb server, instead of default volatile in-memory datasource.
+
+Configuration of datasource is done in `server/datasources.local.js` that overwrite `server/datasources.json`.
 
 ## Screenshot
 
