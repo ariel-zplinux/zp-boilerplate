@@ -19,7 +19,8 @@ export class About extends Component {
         super(props);
 
         this.state = {
-            data: null
+            data: null,
+            from: null
         };
     }
 
@@ -30,14 +31,14 @@ export class About extends Component {
 
         // TODO handle case with github not accessible ==> call to API endpoint /about ==> returns JSON
         // const url = 'http://localhost:3000/api/files/README';
-        
+
         const dataFromServer = context.query && context.query.data;
 
         if (!dataFromServer) {
             // return About.fetchAboutData(url)
             //     .then((data) => {
-            //         return { 
-            //             data: data, 
+            //         return {
+            //             data: data,
             //             from: 'LOADED FROM Next getInitialProps (fetch github)'
             //         };
             //     })
@@ -54,7 +55,7 @@ export class About extends Component {
         }
 
         return Promise.resolve({
-            data: dataFromServer, 
+            data: dataFromServer,
             from: 'LOADED FROM SERVER (SSR - server routing)'
         });
     }
@@ -135,7 +136,7 @@ export class About extends Component {
                 loading: false,
                 statusTitle: state.from,
                 statusContent: 'Received from State'
-                
+
             };
         }
         else if (state.loading) {
@@ -144,7 +145,7 @@ export class About extends Component {
                 statusTitle: 'FETCHING FROM GITHUB',
                 statusContent: 'We are fetching that content for you.'
             };
-            
+
         }
         else {
             return {
@@ -158,13 +159,13 @@ export class About extends Component {
     // Render
 
     render() {
-        const sourceMD = this.props.data ? 
+        const sourceMD = this.props.data ?
                             this.props.data :
                             (this.state.data ? this.state.data : '')
         const {loading, statusTitle, statusContent} = About.prepareStatus(this.state, this.props);
-            
+
         return (
-            <Layout> 
+            <Layout>
                 <Responsive>
                     <div className="markdown zp">
                         <Status loading={loading} title={statusTitle} content={statusContent} />

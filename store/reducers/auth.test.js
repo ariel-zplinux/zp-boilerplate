@@ -1,7 +1,7 @@
-import reducer from './pages.js';
+import reducer from './auth.js';
 import * as actionTypes from '../../config/store/actions/types.js';
 
-describe('page reducer', () => {
+describe('auth reducer', () => {
     it('should return the initial state', () => {
         expect(reducer(undefined, {})).toEqual({
             data: null,

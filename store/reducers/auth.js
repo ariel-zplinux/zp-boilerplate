@@ -2,13 +2,14 @@ import * as actionTypes from '../../config/store/actions/types.js';
 
 const initialState = {
     data: null,
-    from: null
+    from: null,
+    user: null
 };
 
-const loadAboutPageData = (state, action) => {
+const userLoggedIn = (state, action) => {
     const updated = {
-        data: action.data,
-        from: 'LOADED FROM Action loadAboutPageData (fetch github)',
+        user: action.data,
+        from: 'LOADED FROM Action userLoggedIn (reducer)',
     };
 
     return { ...state, ...updated };
@@ -17,6 +18,7 @@ const loadAboutPageData = (state, action) => {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.LOAD_ABOUT_PAGE_DATA: return loadAboutPageData(state, action);
+        case actionTypes.USER_LOGIN: return userLoggedIn(state, action);
         default: return state;
     }
 };
