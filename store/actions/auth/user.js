@@ -1,9 +1,28 @@
 import * as actionTypes from '../../../config/store/actions/types.js';
 
+export const userSignUp = (data) => {
+  const credentials = { credentials: { email: "test@test.com", password: "string"}};
+
+  const action = {
+    type: actionTypes.USER_SIGNUP,
+    data: credentials
+  };
+
+  return action;
+};
+
+export const userSignedUp = (data) => {
+  console.log('== action userSignedUp')
+  const action = {
+    type: actionTypes.USER_SIGNED_UP,
+    data
+  };
+  console.log({action})
+  return action;
+
+};
+
 export const userLogIn = (data = { name}) => {
-    console.log("[ACTION] userLogIn ")
-
-
     const credentials = { credentials: { email: "test@test.com", password: "string"}};
 
     return {

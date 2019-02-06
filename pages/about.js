@@ -15,172 +15,179 @@ import config from '../config/pages/about.js'
 
 
 export class About extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            data: null,
-            from: null
-        };
+    this.state = {
+      data: null,
+      from: null,
+      user: null
+    };
+  }
+
+  // Next lifecycle
+
+  static getInitialProps(context) {
+    const url = config.GITHUB_README_URL;
+
+    // TODO handle case with github not accessible ==> call to API endpoint /about ==> returns JSON
+    // const url = 'http://localhost:3000/api/files/README';
+
+    const dataFromServer = context.query && context.query.data;
+
+    if (!dataFromServer) {
+      // return About.fetchAboutData(url)
+      //     .then((data) => {
+      //         return {
+      //             data: data,
+      //             from: 'LOADED FROM Next getInitialProps (fetch github)'
+      //         };
+      //     })
+      //     .catch(err => {
+      //         console.error(err);
+      //         return Promise.reject({
+      //             error: err,
+      //             from: 'CATCH FROM About.fetchAboutData in  getInitialProps'
+      //         });
+      //     });
+
+      // Will fetch after in componentDidMount
+      return true;
     }
 
-    // Next lifecycle
+    return Promise.resolve({
+      data: dataFromServer,
+      from: 'LOADED FROM SERVER (SSR - server routing)'
+    });
+  }
 
-    static getInitialProps(context) {
-        const url = config.GITHUB_README_URL;
+  // React lifecycle
 
-        // TODO handle case with github not accessible ==> call to API endpoint /about ==> returns JSON
-        // const url = 'http://localhost:3000/api/files/README';
+  shouldComponentUpdate(props) {
+    return true;
+  }
 
-        const dataFromServer = context.query && context.query.data;
+  componentDidMount() {
+    const url = config.GITHUB_README_URL;
 
-        if (!dataFromServer) {
-            // return About.fetchAboutData(url)
-            //     .then((data) => {
-            //         return {
-            //             data: data,
-            //             from: 'LOADED FROM Next getInitialProps (fetch github)'
-            //         };
-            //     })
-            //     .catch(err => {
-            //         console.error(err);
-            //         return Promise.reject({
-            //             error: err,
-            //             from: 'CATCH FROM About.fetchAboutData in  getInitialProps'
-            //         });
-            //     });
+    if (!this.props.data && !this.state.loading && !this.props.redux) {
+      setTimeout(() => {
+        this.setState({ loading: true })
+      }, 0);
 
-            // Will fetch after in componentDidMount
-            return true;
-        }
-
-        return Promise.resolve({
-            data: dataFromServer,
-            from: 'LOADED FROM SERVER (SSR - server routing)'
+      About.fetchAboutData(url)
+        .then((data) => {
+          setTimeout(() => {
+            this.setState({
+              data: data,
+              from: 'LOADED FROM React componentDidMount (fetch github)'
+            });
+          }, 2000);
+        })
+        .catch(err => {
+          console.error(err);
+          return Promise.reject({
+            error: err,
+            from: 'CATCH FROM About.fetchAboutData in componentDidMount'
+          });
         });
     }
 
-    // React lifecycle
+    if (this.props.redux) {
+      setTimeout(() => {
+        this.setState({ loading: true })
+      }, 0);
 
-    shouldComponentUpdate(props) {
-        return true;
+      this.props.onDataLoading(url);
     }
+  }
 
-    componentDidMount() {
-        const url = config.GITHUB_README_URL;
+  // Functions
 
-        if (!this.props.data && !this.state.loading && !this.props.redux) {
-            setTimeout(() => {
-                this.setState({loading: true})
-                }, 0);
+  static fetchAboutData(AboutUrl) {
+    const url = AboutUrl ? AboutUrl : config.GITHUB_README_URL;
 
-            About.fetchAboutData(url)
-                .then((data) => {
-                    setTimeout(() => {
-                        this.setState({
-                            data: data,
-                            from: 'LOADED FROM React componentDidMount (fetch github)'
-                        });
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error(err);
-                    return Promise.reject({
-                        error: err,
-                        from: 'CATCH FROM About.fetchAboutData in componentDidMount'
-                    });
-                });
-        }
+    return fetch(url)
+      .then((response) => {
+        return response.text()
+      })
+      .then((data) => {
+        return data
+      })
+      .catch((err) => err);
+  }
 
-        if (this.props.redux) {
-            setTimeout(() => {
-                this.setState({loading: true})
-                }, 0);
-
-            this.props.onDataLoading(url);
-        }
+  static prepareStatus(state, props) {
+    if (props.from && props.redux) {
+      return {
+        loading: false,
+        statusTitle: props.from,
+        statusContent: 'Received from Reducer'
+      };
     }
-
-    // Functions
-
-    static fetchAboutData(AboutUrl) {
-        const url = AboutUrl ? AboutUrl : config.GITHUB_README_URL;
-
-        return fetch(url)
-            .then((response) => {
-                return response.text()
-            })
-            .then((data) => {
-                return data
-            })
-            .catch((err) => err);
+    else if (props.from && !redux) {
+      return {
+        loading: false,
+        statusTitle: props.from,
+        statusContent: 'Received from Props'
+      };
     }
+    else if (state.from) {
+      return {
+        loading: false,
+        statusTitle: state.from,
+        statusContent: 'Received from State'
 
-    static prepareStatus(state, props) {
-        if (props.from && props.redux) {
-            return {
-                loading: false,
-                statusTitle: props.from,
-                statusContent: 'Received from Reducer'
-            };
-        }
-        else if (props.from && !redux) {
-            return {
-                loading: false,
-                statusTitle: props.from,
-                statusContent: 'Received from Props'
-            };
-        }
-        else if (state.from) {
-            return {
-                loading: false,
-                statusTitle: state.from,
-                statusContent: 'Received from State'
-
-            };
-        }
-        else if (state.loading) {
-            return {
-                loading: true,
-                statusTitle: 'FETCHING FROM GITHUB',
-                statusContent: 'We are fetching that content for you.'
-            };
-
-        }
-        else {
-            return {
-                loading: false,
-                statusTitle: 'NOT LOADED',
-                statusContent: 'Neither from Props nor from State'
-            };
-        }
+      };
     }
+    else if (state.loading) {
+      return {
+        loading: true,
+        statusTitle: 'FETCHING FROM GITHUB',
+        statusContent: 'We are fetching that content for you.'
+      };
 
-    // Render
+    }
+    else {
+      return {
+        loading: false,
+        statusTitle: 'NOT LOADED',
+        statusContent: 'Neither from Props nor from State'
+      };
+    }
+  }
 
-    render() {
-        const sourceMD = this.props.data ?
-                            this.props.data :
-                            (this.state.data ? this.state.data : '')
-        const {loading, statusTitle, statusContent} = About.prepareStatus(this.state, this.props);
+  onPressSignUpButton(e) {
+    console.log('PASS onPress ')
 
-        return (
-            <Layout>
-                <Responsive>
-                    <div className="markdown zp">
-                        <Status loading={loading} title={statusTitle} content={statusContent} />
+    return this.props.onPressSignUpButton();
+  }
 
-                        <Divider
-                            as='h4'
-                            className='header'
-                            horizontal
-                            style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
-                            About - <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
+  // Render
+
+  render() {
+    const sourceMD = this.props.data ?
+      this.props.data :
+      (this.state.data ? this.state.data : '')
+    const { loading, statusTitle, statusContent } = About.prepareStatus(this.state, this.props);
+
+    return (
+      <Layout>
+        <Responsive onPressSignUpButton={this.onPressSignUpButton.bind(this)}>
+          <div className="markdown zp">
+            <Status loading={loading} title={statusTitle} content={statusContent} />
+
+            <Divider
+              as='h4'
+              className='header'
+              horizontal
+              style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
+              About - <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
                         </Divider>
 
-                        <Markdown source={sourceMD} />
-                    </div>
-                    <style jsx global>{`
+            <Markdown source={sourceMD} />
+          </div>
+          <style jsx global>{`
                         .markdown {
                             font-family: 'Arial';
                             padding: 15px
@@ -205,24 +212,29 @@ export class About extends Component {
                         }
                     `}</style>
 
-                </Responsive>
-            </Layout>
-        );
-    }
+        </Responsive>
+      </Layout>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        data: state.page.data,
-        from: state.page.from,
-        redux: true
-    };
+  return {
+    data: state.page.data,
+    from: state.page.from,
+    user: state.auth.user,
+    redux: true
+  };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onDataLoading: (url) => dispatch(actions.loadingAboutPageData(url))
-    };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDataLoading: (url) => dispatch(actions.loadingAboutPageData(url)),
+    onPressSignUpButton: () => {
+      console.log('== MAPDISPATCH');
+      dispatch(actions.userSignUp())
+    }
+  };
 };
 
 export default StateManager(connect(mapStateToProps, mapDispatchToProps)(About));
