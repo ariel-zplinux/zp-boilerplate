@@ -10,6 +10,9 @@ import {
   Segment,
   Sidebar,
   Visibility,
+  Modal,
+  Form,
+  Checkbox
 } from 'semantic-ui-react'
 
 import * as actions from '../../store/actions/index.js';
@@ -40,7 +43,27 @@ class DesktopContainer extends Component {
                 <Link href='/about'><Menu.Item as='a'>About</Menu.Item></Link>
                 <Menu.Item position='right'>
                   <Button as='a' >Log in</Button>
-                  <Button as='a' primary onClick={this.props.onPressSignUpButton.bind(this)} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+
+                  <Modal trigger={<Button as='a' primary onClick={this.props.onPressSignUpButton} style={{ marginLeft: '0.5em' }}>Sign Up</Button>}>
+                    <Modal.Content>
+                      <Form>
+                        <Form.Field>
+                          <label>First Name</label>
+                          <input placeholder='First Name' />
+                        </Form.Field>
+                        <Form.Field>
+                          <label>Last Name</label>
+                          <input placeholder='Last Name' />
+                        </Form.Field>
+                        <Form.Field>
+                          <Checkbox label='I agree to the Terms and Conditions' />
+                        </Form.Field>
+                        <Button type='submit'>Submit</Button>
+                      </Form>
+                    </Modal.Content>
+                  </Modal>
+
+
                 </Menu.Item>
               </Container>
             </Menu>
@@ -56,6 +79,26 @@ class DesktopContainer extends Component {
 DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
+
+const modal = (
+  <form class="ui form">
+    <div class="field">
+      <label>First Name</label>
+      <input placeholder="First Name" />
+    </div>
+    <div class="field">
+      <label>Last Name</label>
+      <input placeholder="Last Name" />
+    </div>
+    <div class="field">
+      <div class="ui checkbox">
+        <input type="checkbox" class="hidden" readonly="" tabindex="0" />
+        <label>I agree to the Terms and Conditions</label>
+      </div>
+    </div>
+    <button type="submit" class="ui button">Submit</button>
+  </form>
+)
 
 class MobileContainer extends Component {
   state = {
