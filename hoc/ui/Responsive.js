@@ -18,10 +18,52 @@ import {
 import * as actions from '../../store/actions/index.js';
 
 class DesktopContainer extends Component {
-  state = {}
+  state = {
+    email: '',
+    password: '',
+    modalForm: undefined
+  };
 
   hideFixedMenu = () => this.setState({ fixed: false })
   showFixedMenu = () => this.setState({ fixed: true })
+
+  handleEmailInputChange(event) {
+    const email = event.target.value;
+
+    this.setState({email});
+  }
+
+  handlePasswordInputChange(event) {
+    const password = event.target.value;
+
+    this.setState({password});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const { email, password } = this.state;
+
+    const credentials = { email, password};
+
+    this.props.onPressSignUpButton({credentials});
+
+    this.setState({ modalForm: false })
+  }
+
+  onButtonSignUpClicked() {
+    this.setState({
+      modalForm: true
+    })
+  }
+
+  onModalClose() {
+    this.setState({
+      email: '',
+      password: '',
+      modalForm: false
+    });
+  }
 
   render() {
     const { children } = this.props
@@ -42,18 +84,22 @@ class DesktopContainer extends Component {
                 <Link href='/'><Menu.Item as='a'>Home</Menu.Item></Link>
                 <Link href='/about'><Menu.Item as='a'>About</Menu.Item></Link>
                 <Menu.Item position='right'>
-                  <Button as='a' >Log in</Button>
-
-                  <Modal trigger={<Button as='a' primary onClick={this.props.onPressSignUpButton} style={{ marginLeft: '0.5em' }}>Sign Up</Button>}>
+                  <Button as='a' >Login</Button>
+                  <Button as='a' primary onClick={this.onButtonSignUpClicked.bind(this)} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                  <Modal
+                    open={this.state.modalForm}
+                    onClose={this.onModalClose.bind(this)}
+                  >
+                    <Modal.Header>Sign up</Modal.Header>
                     <Modal.Content>
-                      <Form>
+                      <Form onSubmit={this.handleSubmit.bind(this)}>
                         <Form.Field>
-                          <label>First Name</label>
-                          <input placeholder='First Name' />
+                          <label>Email</label>
+                          <input placeholder='Email' value={this.state.email} onChange={this.handleEmailInputChange.bind(this)}/>
                         </Form.Field>
                         <Form.Field>
-                          <label>Last Name</label>
-                          <input placeholder='Last Name' />
+                          <label>Password</label>
+                          <input placeholder='Password' type="password" value={this.state.password} onChange={this.handlePasswordInputChange.bind(this)}  />
                         </Form.Field>
                         <Form.Field>
                           <Checkbox label='I agree to the Terms and Conditions' />

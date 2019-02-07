@@ -3,9 +3,7 @@ import { put } from 'redux-saga/effects';
 import * as actions from '../actions/index.js';
 
 export function* userSignUpSaga(saga) {
-  console.log('=====USER SIGNUP saga')
   const credentials = saga.data.credentials;
-  console.log({credentials})
 
   try {
     const user = yield userSignUp(credentials);
@@ -24,19 +22,8 @@ export function* userSignUpSaga(saga) {
 function userSignUp(credentials) {
   const url = 'http://localhost:4000/api/Users'
 
-
-  // fetch(url, {
-  //   method: "POST", // *GET, POST, PUT, DELETE, etc.
-  //   mode: "cors", // no-cors, cors, *same-origin
-  //   cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-  //   credentials: "same-origin", // include, *same-origin, omit
-    // headers: {
-    //     "Content-Type": "application/json",
-  //       // "Content-Type": "application/x-www-form-urlencoded",
-  //   },
-
-
-  console.log({credentials})
+  const params = JSON.stringify(credentials.credentials);
+  console.log({params})
 
   return fetch(url, {
     method: "POST",
@@ -44,15 +31,22 @@ function userSignUp(credentials) {
       "Content-Type": "application/json",
       "Accept": "application/json"
     },
-    body: JSON.stringify(credentials)
+    body: params
   })
     .then((response) => response.text())
     .then((data) => {
-      console.log({data});
+      // Handle api call return
+      const response = JSON.parse(data);
+
+      // throw error if error received
+      if (response.error && !response.id) {
+        throw new Error(data);
+      }
+
       return data;
     })
-    .catch((err) => {
-      console.log({err})
+    .catch((error) => {
+      console.log({error});
     })
   }
 

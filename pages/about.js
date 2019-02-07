@@ -157,10 +157,8 @@ export class About extends Component {
     }
   }
 
-  onPressSignUpButton(e) {
-    console.log('PASS onPress ')
-
-    return this.props.onPressSignUpButton();
+  onPressSignUpButton(data) {
+    return this.props.onPressSignUpButton(data);
   }
 
   // Render
@@ -230,10 +228,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onDataLoading: (url) => dispatch(actions.loadingAboutPageData(url)),
-    onPressSignUpButton: () => {
-      console.log('== MAPDISPATCH');
-      dispatch(actions.userSignUp())
-    }
+    onPressSignUpButton: (data) => dispatch(actions.userSignUp(data))
   };
 };
 
