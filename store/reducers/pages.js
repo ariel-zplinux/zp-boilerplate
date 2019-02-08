@@ -1,6 +1,6 @@
 import * as actionTypes from '../../config/store/actions/types.js';
 
-const initialState = {
+export const initialState = {
     data: null,
     from: null
 };

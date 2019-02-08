@@ -5,8 +5,8 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
-import pageReducers from '../../store/reducers/pages.js';
-import authReducer from '../../store/reducers/auth.js';
+import pageReducers, {initialState as pageInitialState} from '../../store/reducers/pages.js';
+import authReducer, {initialState as authInitialState} from '../../store/reducers/auth.js';
 import { watchAbout, watchAuth } from '../../store/sagas/index.js'
 
 
@@ -31,10 +31,11 @@ const StateManager = (App) => {
             super(props);
 
             this.state = {
-                page: {
-                    data: null
-                }
+                page: {...pageInitialState},
+                auth: {...authInitialState}
             };
+
+            console.log(this.state)
         }
 
         render() {

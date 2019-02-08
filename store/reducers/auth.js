@@ -1,7 +1,7 @@
 import * as actionTypes from '../../config/store/actions/types.js';
 import { userSignUp } from '../actions/auth/user.js';
 
-const initialState = {
+export const initialState = {
   data: null,
   from: null,
   user: null,
