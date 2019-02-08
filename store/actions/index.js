@@ -6,5 +6,6 @@ export {
 export {
   userLogIn,
   userSignUp,
-  userSignedUp
+  userSignedUp,
+  userSignUpFailure
 } from './auth/user.js'

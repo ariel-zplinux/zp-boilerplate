@@ -21,7 +21,7 @@ class DesktopContainer extends Component {
   state = {
     email: '',
     password: '',
-    modalForm: undefined
+    modalForm: false
   };
 
   hideFixedMenu = () => this.setState({ fixed: false })
@@ -47,8 +47,6 @@ class DesktopContainer extends Component {
     const credentials = { email, password};
 
     this.props.onPressSignUpButton({credentials});
-
-    this.setState({ modalForm: false })
   }
 
   onButtonSignUpClicked() {
@@ -57,12 +55,11 @@ class DesktopContainer extends Component {
     })
   }
 
-  onModalClose() {
-    this.setState({
-      email: '',
-      password: '',
-      modalForm: false
-    });
+  componentWillUpdate(props) {
+    // To hide modal if user submitted correct data
+    if (!props.modalFormAuth && this.state.modalForm) {
+      this.setState({modalForm: false})
+    }
   }
 
   render() {
@@ -88,11 +85,10 @@ class DesktopContainer extends Component {
                   <Button as='a' primary onClick={this.onButtonSignUpClicked.bind(this)} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
                   <Modal
                     open={this.state.modalForm}
-                    onClose={this.onModalClose.bind(this)}
                   >
                     <Modal.Header>Sign up</Modal.Header>
                     <Modal.Content>
-                      <Form onSubmit={this.handleSubmit.bind(this)}>
+                      <Form>
                         <Form.Field>
                           <label>Email</label>
                           <input placeholder='Email' value={this.state.email} onChange={this.handleEmailInputChange.bind(this)}/>
@@ -104,7 +100,7 @@ class DesktopContainer extends Component {
                         <Form.Field>
                           <Checkbox label='I agree to the Terms and Conditions' />
                         </Form.Field>
-                        <Button type='submit'>Submit</Button>
+                        <Button type='submit' onClick={this.handleSubmit.bind(this)}>Submit</Button>
                       </Form>
                     </Modal.Content>
                   </Modal>
@@ -222,9 +218,13 @@ const mobileChildrenStyle = {
   marginTop: '50px'
 }
 
-const ResponsiveContainer = ({ children, onPressSignUpButton }) => (
+const ResponsiveContainer = ({ children, onPressSignUpButton, modalFormAuth }) => (
   <div>
-    <DesktopContainer onPressSignUpButton={onPressSignUpButton}>{children}</DesktopContainer>
+    <DesktopContainer
+      onPressSignUpButton={onPressSignUpButton}
+      modalFormAuth={modalFormAuth}
+    >
+      {children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
   </div>
 )

@@ -5,3 +5,4 @@ export const USER_SIGNUP = 'USER_SIGNUP';
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGOUT = 'USER_LOGOUT';
 export const USER_SIGNED_UP = 'USER_SIGNED_UP';
+export const USER_SIGNUP_FAILURE = 'USER_SIGNUP_FAILURE';

@@ -18,18 +18,20 @@ export const userSignedUp = (data) => {
   return action;
 };
 
+export const userSignUpFailure = (data = { error: 'error'}) => {
+  const action = {
+    type: actionTypes.USER_SIGNUP_FAILURE,
+    data
+  };
+
+  return action;
+};
+
 export const userLogIn = (data = { name}) => {
     const credentials = { credentials: { email: "test@test.com", password: "string"}};
 
     return {
         type: actionTypes.USER_LOGIN,
         data: credentials
-    };
-};
-
-export const loadingAboutPageData = (url) => {
-    return {
-        type: actionTypes.FETCH_ABOUT_PAGE_DATA,
-        url
     };
 };

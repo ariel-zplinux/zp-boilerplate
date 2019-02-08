@@ -4,14 +4,10 @@ import * as actions from '../../actions/index.js';
 import config from '../../../config/pages/about.js'
 
 export function* loadingAboutPageDataSaga({url}) {
-  console.log('=====PASSEEEEEE')
   try {
         const data = yield fetchAboutData(url);
-      console.log('=====PASSEEEEEE')
-      console.log({data})
 
         yield put(actions.loadedAboutPageData(data));
-        console.log('=== PASSED yyield')
     }
     catch(error) {
         yield put(actions.loadedAboutPageData({

@@ -171,7 +171,10 @@ export class About extends Component {
 
     return (
       <Layout>
-        <Responsive onPressSignUpButton={this.onPressSignUpButton.bind(this)}>
+        <Responsive
+          onPressSignUpButton={this.onPressSignUpButton.bind(this)}
+          modalFormAuth={this.props.modalFormAuth}
+        >
           <div className="markdown zp">
             <Status loading={loading} title={statusTitle} content={statusContent} />
 
@@ -221,6 +224,7 @@ const mapStateToProps = (state) => {
     data: state.page.data,
     from: state.page.from,
     user: state.auth.user,
+    modalFormAuth: state.auth.modalFormAuth,
     redux: true
   };
 };

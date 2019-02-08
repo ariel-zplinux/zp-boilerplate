@@ -8,7 +8,14 @@ export function* userSignUpSaga(saga) {
   try {
     const user = yield userSignUp(credentials);
 
-    yield put(actions.userSignedUp(user));
+    // user signed up
+    if (user) {
+      yield put(actions.userSignedUp(user));
+    }
+    // failure
+    else {
+      yield put(actions.userSignUpFailure());
+    }
 
     return true;
   }
@@ -20,10 +27,9 @@ export function* userSignUpSaga(saga) {
 };
 
 function userSignUp(credentials) {
-  const url = 'http://localhost:4000/api/Users'
+  const url = 'http://localhost:4000/api/Users';
 
   const params = JSON.stringify(credentials.credentials);
-  console.log({params})
 
   return fetch(url, {
     method: "POST",
@@ -47,6 +53,8 @@ function userSignUp(credentials) {
     })
     .catch((error) => {
       console.log({error});
+
+      return null;
     })
   }
 
