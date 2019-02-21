@@ -4,10 +4,10 @@ import Markdown from 'react-markdown'
 import { Divider } from 'semantic-ui-react'
 
 import Layout from '../components/ui/Layout.js';
-import ResponsiveContainer from '../hoc/ui/ResponsiveContainer.js';
+import ResponsiveContainer from '../components/ui/ResponsiveContainer.js';
 import Status from '../components/ui/Status.js';
 
-import StateManager from '../hoc/state/StateManager.js'
+import StateManager from '../components/state/StateManager.js'
 
 import * as actions from '../store/actions/index.js';
 
