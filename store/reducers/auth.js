@@ -21,7 +21,7 @@ const userLoggedIn = (state, action) => {
 const userSignedUp = (state, action) => {
   const updated = {
     user: JSON.parse(action.data),
-    from: 'LOADED FROM Action userLoggedIn (reducer)',
+    from: 'LOADED FROM Action userSignedUp (reducer)',
     error: null,
     modalFormAuth: false
   };

@@ -4,7 +4,7 @@ import Markdown from 'react-markdown'
 import { Divider } from 'semantic-ui-react'
 
 import Layout from '../components/ui/Layout.js';
-import Responsive from '../hoc/ui/Responsive.js';
+import ResponsiveContainer from '../hoc/ui/ResponsiveContainer.js';
 import Status from '../components/ui/Status.js';
 
 import StateManager from '../hoc/state/StateManager.js'
@@ -171,7 +171,7 @@ export class About extends Component {
 
     return (
       <Layout>
-        <Responsive
+        <ResponsiveContainer
           onPressSignUpButton={this.onPressSignUpButton.bind(this)}
           modalFormAuth={this.props.modalFormAuth}
         >
@@ -184,36 +184,35 @@ export class About extends Component {
               horizontal
               style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
               About - <a href="https://github.com/ariel-zplinux/zp-boilerplate/"> Github </a> Readme
-                        </Divider>
+            </Divider>
 
             <Markdown source={sourceMD} />
           </div>
           <style jsx global>{`
-                        .markdown {
-                            font-family: 'Arial';
-                            padding: 15px
-                        }
+            .markdown {
+                font-family: 'Arial';
+                padding: 15px
+            }
 
-                        .markdown a {
-                            text-decoration: none;
-                            color: green;
-                        }
+            .markdown a {
+                text-decoration: none;
+                color: green;
+            }
 
-                        .markdown a:hover {
-                            opacity: 0.6;
-                        }
+            .markdown a:hover {
+                opacity: 0.6;
+            }
 
-                        .markdown h3, h2, h1 {
-                            margin: 15px 0;
-                            padding: 0;
-                        }
+            .markdown h3, h2, h1 {
+                margin: 15px 0;
+                padding: 0;
+            }
 
-                        div.zp {
-                            margin: 0 auto;
-                        }
-                    `}</style>
-
-        </Responsive>
+            div.zp {
+                margin: 0 auto;
+            }
+          `}</style>
+        </ResponsiveContainer>
       </Layout>
     );
   }
