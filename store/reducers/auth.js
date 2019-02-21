@@ -5,8 +5,7 @@ export const initialState = {
   data: null,
   from: null,
   user: null,
-  error: null,
-  modalFormAuth: false
+  error: null
 };
 
 const userLoggedIn = (state, action) => {
@@ -23,7 +22,6 @@ const userSignedUp = (state, action) => {
     user: JSON.parse(action.data),
     from: 'LOADED FROM Action userSignedUp (reducer)',
     error: null,
-    modalFormAuth: false
   };
 
   return {
@@ -35,7 +33,6 @@ const userSignedUp = (state, action) => {
 const userSignUpFailure = (state, action) => {
   const updated = {
     error: action.data,
-    modalFormAuth: true
   }
 
   return {
