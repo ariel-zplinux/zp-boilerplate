@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Link from 'next/link';
 import {
   Button,
@@ -125,4 +126,11 @@ DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
 
-export default DesktopContainer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onPressSignUpButton: (data) => dispatch(actions.userSignUp(data))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(DesktopContainer);
+

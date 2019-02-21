@@ -19,13 +19,10 @@ import * as actions from '../../store/actions/index.js';
 import DesktopContainer from './DesktopContainer.js';
 import MobileContainer from './MobileContainer.js';
 
-const ResponsiveContainer = ({ children, onPressSignUpButton }) => (
+const ResponsiveContainer = ({ children }) => (
   <div>
-    <DesktopContainer
-      onPressSignUpButton={onPressSignUpButton}
-    >
-      {children}</DesktopContainer>
-    <MobileContainer>{children}</MobileContainer>
+    <DesktopContainer>{ children }</DesktopContainer>
+    <MobileContainer>{ children }</MobileContainer>
   </div>
 )
 

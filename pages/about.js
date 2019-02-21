@@ -8,9 +8,7 @@ import ResponsiveContainer from '../components/ui/ResponsiveContainer.js';
 import Status from '../components/ui/Status.js';
 
 import StateManager from '../components/state/StateManager.js'
-
 import * as actions from '../store/actions/index.js';
-
 import config from '../config/pages/about.js'
 
 
@@ -157,10 +155,6 @@ export class About extends Component {
     }
   }
 
-  onPressSignUpButton(data) {
-    return this.props.onPressSignUpButton(data);
-  }
-
   // Render
 
   render() {
@@ -171,9 +165,7 @@ export class About extends Component {
 
     return (
       <Layout>
-        <ResponsiveContainer
-          onPressSignUpButton={this.onPressSignUpButton.bind(this)}
-        >
+        <ResponsiveContainer>
           <div className="markdown zp">
             <Status loading={loading} title={statusTitle} content={statusContent} />
 
@@ -230,8 +222,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDataLoading: (url) => dispatch(actions.loadingAboutPageData(url)),
-    onPressSignUpButton: (data) => dispatch(actions.userSignUp(data))
+    onDataLoading: (url) => dispatch(actions.loadingAboutPageData(url))
   };
 };
 
