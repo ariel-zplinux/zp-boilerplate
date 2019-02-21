@@ -5,55 +5,53 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
-import pageReducers, {initialState as pageInitialState} from '../../store/reducers/pages.js';
-import authReducer, {initialState as authInitialState} from '../../store/reducers/auth.js';
+import pageReducers, { initialState as pageInitialState } from '../../store/reducers/pages.js';
+import authReducer, { initialState as authInitialState } from '../../store/reducers/auth.js';
 import { watchAbout, watchAuth } from '../../store/sagas/index.js'
 
 
 const rootReducer = combineReducers({
-    page: pageReducers,
-    auth: authReducer
+  page: pageReducers,
+  auth: authReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
-    rootReducer,
-    applyMiddleware(thunk, sagaMiddleware)
+  rootReducer,
+  applyMiddleware(thunk, sagaMiddleware)
 );
 
 sagaMiddleware.run(watchAbout);
 sagaMiddleware.run(watchAuth);
 
 const StateManager = (App) => {
-    class StateManagerClass extends Component {
-        constructor(props) {
-            super(props);
+  class StateManagerClass extends Component {
+    constructor(props) {
+      super(props);
 
-            this.state = {
-                page: {...pageInitialState},
-                auth: {...authInitialState}
-            };
-
-            console.log(this.state)
-        }
-
-        render() {
-            return (
-                <Provider store={store}>
-                    <App />
-                </Provider>
-            )
-        }
+      this.state = {
+        page: { ...pageInitialState },
+        auth: { ...authInitialState }
+      };
     }
 
-    StateManagerClass.propTypes = {
-        children: PropTypes.node
-    };
+    render() {
+      return (
+        <Provider store={store}>
+          <App />
+        </Provider>
+      )
+    }
+  }
 
-    return (
-        StateManagerClass
-    );
+  StateManagerClass.propTypes = {
+    children: PropTypes.node
+  };
+
+  return (
+    StateManagerClass
+  );
 }
 
 export default StateManager;

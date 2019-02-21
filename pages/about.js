@@ -220,9 +220,11 @@ export class About extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const from = state.auth.from || state.page.from;
+
   return {
     data: state.page.data,
-    from: state.page.from,
+    from: from,
     user: state.auth.user,
     modalFormAuth: state.auth.modalFormAuth,
     redux: true

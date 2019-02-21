@@ -43,23 +43,24 @@ class DesktopContainer extends Component {
     event.preventDefault();
 
     const { email, password } = this.state;
-
     const credentials = { email, password};
 
     this.props.onPressSignUpButton({credentials});
+    this.setState({
+      modalForm: false
+    });
   }
 
   onButtonSignUpClicked() {
     this.setState({
       modalForm: true
-    })
+    });
   }
 
-  componentWillUpdate(props) {
-    // To hide modal if user submitted correct data
-    if (!props.modalFormAuth && this.state.modalForm) {
-      this.setState({modalForm: false})
-    }
+  onCloseIconClicked() {
+    this.setState({
+      modalForm: false
+    })
   }
 
   render() {
@@ -84,6 +85,8 @@ class DesktopContainer extends Component {
                   <Button as='a' >Login</Button>
                   <Button as='a' primary onClick={this.onButtonSignUpClicked.bind(this)} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
                   <Modal
+                    closeIcon
+                    onClose={this.onCloseIconClicked.bind(this)}
                     open={this.state.modalForm}
                   >
                     <Modal.Header>Sign up</Modal.Header>
