@@ -13,7 +13,8 @@ import {
   Visibility,
   Modal,
   Form,
-  Checkbox
+  Checkbox,
+  Transition
 } from 'semantic-ui-react'
 
 import * as actions from '../../store/actions/index.js';
@@ -85,35 +86,35 @@ class DesktopContainer extends Component {
                 <Menu.Item position='right'>
                   <Button as='a' >Login</Button>
                   <Button as='a' primary onClick={this.onButtonSignUpClicked.bind(this)} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-                  <Modal
-                    closeIcon
-                    onClose={this.onCloseIconClicked.bind(this)}
-                    open={this.state.modalForm}
-                  >
-                    <Modal.Header>Sign up</Modal.Header>
-                    <Modal.Content>
-                      <Form>
-                        <Form.Field>
-                          <label>Email</label>
-                          <input placeholder='Email' value={this.state.email} onChange={this.handleEmailInputChange.bind(this)} />
-                        </Form.Field>
-                        <Form.Field>
-                          <label>Password</label>
-                          <input placeholder='Password' type="password" value={this.state.password} onChange={this.handlePasswordInputChange.bind(this)} />
-                        </Form.Field>
-                        <Form.Field>
-                          <Checkbox label='I agree to the Terms and Conditions' />
-                        </Form.Field>
-                        <Button type='submit' onClick={this.handleSubmit.bind(this)}>Submit</Button>
-                      </Form>
-                    </Modal.Content>
-                  </Modal>
-
-
                 </Menu.Item>
               </Container>
             </Menu>
           </Segment>
+          <Transition visible={this.state.modalForm} animation='scale' duration={800}>
+            <Modal
+              closeIcon
+              onClose={this.onCloseIconClicked.bind(this)}
+              open={this.state.modalForm}
+            >
+              <Modal.Header>Sign up</Modal.Header>
+              <Modal.Content>
+                <Form>
+                  <Form.Field>
+                    <label>Email</label>
+                    <input placeholder='Email' value={this.state.email} onChange={this.handleEmailInputChange.bind(this)} />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Password</label>
+                    <input placeholder='Password' type="password" value={this.state.password} onChange={this.handlePasswordInputChange.bind(this)} />
+                  </Form.Field>
+                  <Form.Field>
+                    <Checkbox label='I agree to the Terms and Conditions' />
+                  </Form.Field>
+                  <Button type='submit' onClick={this.handleSubmit.bind(this)}>Submit</Button>
+                </Form>
+              </Modal.Content>
+            </Modal>
+          </Transition>
         </Visibility>
 
         {children}
