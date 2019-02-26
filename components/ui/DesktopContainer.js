@@ -115,16 +115,16 @@ class DesktopContainer extends Component {
               <Container style={{ width: '100%', margin: '20px' }}>
                 <Menu.Item position='left'>
                   <Button.Group>
-                    <Button style={{ marginLeft: '5px', marginRight: '5px'}}>
-                      <Link href='/'>
-                        <a>Home</a>
-                      </Link>
-                    </Button>
-                    <Button style={{ marginLeft: '5px', marginRight: '5px'}}>
-                      <Link href='/about'>
-                        <a>About</a>
-                      </Link>
-                    </Button>
+                    <Link href='/'>
+                      <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                        Home
+                      </Button>
+                    </Link>
+                    <Link href='/about'>
+                      <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                        About
+                      </Button>
+                    </Link>
                     </Button.Group>
                 </Menu.Item>
                 <Menu.Item position='right'>
