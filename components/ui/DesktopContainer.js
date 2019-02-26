@@ -81,16 +81,41 @@ class DesktopContainer extends Component {
               size='large'
               style={{ background: '#0f5866' }}>
               <Container style={{ width: '100%', margin: '20px' }}>
-                <Link href='/'><Menu.Item as='a'>Home</Menu.Item></Link>
-                <Link href='/about'><Menu.Item as='a'>About</Menu.Item></Link>
+                <Menu.Item position='left'>
+                  <Button.Group>
+                    <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                      <Link href='/'>
+                        Home
+                      </Link>
+                    </Button>
+                    <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                      <Link href='/about'>
+                        About
+                      </Link>
+                    </Button>
+                    </Button.Group>
+                </Menu.Item>
                 <Menu.Item position='right'>
-                  <Button as='a' >Login</Button>
-                  <Button as='a' primary onClick={this.onButtonSignUpClicked.bind(this)} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                  <Button.Group>
+                    <Button
+                      as='a'
+                      style={{ marginLeft: '5px', marginRight: '5px'}}
+                      onClick={this.onButtonSignUpClicked.bind(this)}>
+                      Login
+                    </Button>
+                    <Button
+                      as='a'
+                      style={{ marginLeft: '2px', marginRight: '2px'}}
+                      positive
+                      onClick={this.onButtonSignUpClicked.bind(this)}>
+                      Sign Up
+                    </Button>
+                  </Button.Group>
                 </Menu.Item>
               </Container>
             </Menu>
           </Segment>
-          <Transition visible={this.state.modalForm} animation='scale' duration={800}>
+          <Transition visible={this.state.modalForm} animation='scale' duration={500}>
             <Modal
               closeIcon
               onClose={this.onCloseIconClicked.bind(this)}
