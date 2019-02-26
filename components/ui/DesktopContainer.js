@@ -5,11 +5,10 @@ import Link from 'next/link';
 import {
   Button,
   Container,
-  Icon,
+  Grid,
   Menu,
   Responsive,
   Segment,
-  Sidebar,
   Visibility,
   Modal,
   Form,
@@ -23,7 +22,10 @@ class DesktopContainer extends Component {
   state = {
     email: '',
     password: '',
-    modalForm: false
+    modalForm: {
+      status: false,
+      action: ''
+    }
   };
 
   hideFixedMenu = () => this.setState({ fixed: false })
@@ -47,21 +49,51 @@ class DesktopContainer extends Component {
     const { email, password } = this.state;
     const credentials = { email, password };
 
+    switch(this.state.modalForm) {
+      case 'Login':
+        this.props.onPressSignUpButton({ credentials });
+        this.setState({
+          modalForm: { status: false }
+        });
+        break;
+      case 'Signup':
+        this.props.onPressSignUpButton({ credentials });
+        this.setState({
+          modalForm: { status: false }
+        });
+        break;
+
+      default:
+        break;
+    }
+
     this.props.onPressSignUpButton({ credentials });
     this.setState({
-      modalForm: false
+      modalForm: { status: false }
     });
   }
 
   onButtonSignUpClicked() {
     this.setState({
-      modalForm: true
+      modalForm: {
+        status: true,
+        action: 'Signup'
+      }
+    });
+  }
+
+  onButtonLogInClicked() {
+    this.setState({
+      modalForm: {
+        status: true,
+        action: 'Login'
+      }
     });
   }
 
   onCloseIconClicked() {
     this.setState({
-      modalForm: false
+      modalForm: { status: false }
     })
   }
 
@@ -83,14 +115,14 @@ class DesktopContainer extends Component {
               <Container style={{ width: '100%', margin: '20px' }}>
                 <Menu.Item position='left'>
                   <Button.Group>
-                    <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                    <Button style={{ marginLeft: '5px', marginRight: '5px'}}>
                       <Link href='/'>
-                        Home
+                        <a>Home</a>
                       </Link>
                     </Button>
-                    <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                    <Button style={{ marginLeft: '5px', marginRight: '5px'}}>
                       <Link href='/about'>
-                        About
+                        <a>About</a>
                       </Link>
                     </Button>
                     </Button.Group>
@@ -100,7 +132,7 @@ class DesktopContainer extends Component {
                     <Button
                       as='a'
                       style={{ marginLeft: '5px', marginRight: '5px'}}
-                      onClick={this.onButtonSignUpClicked.bind(this)}>
+                      onClick={this.onButtonLogInClicked.bind(this)}>
                       Login
                     </Button>
                     <Button
@@ -115,28 +147,49 @@ class DesktopContainer extends Component {
               </Container>
             </Menu>
           </Segment>
-          <Transition visible={this.state.modalForm} animation='scale' duration={500}>
+          <Transition visible={this.state.modalForm.status} animation='scale' duration={500}>
             <Modal
               closeIcon
               onClose={this.onCloseIconClicked.bind(this)}
-              open={this.state.modalForm}
+              open={this.state.modalForm.status}
             >
-              <Modal.Header>Sign up</Modal.Header>
               <Modal.Content>
-                <Form>
-                  <Form.Field>
-                    <label>Email</label>
-                    <input placeholder='Email' value={this.state.email} onChange={this.handleEmailInputChange.bind(this)} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Password</label>
-                    <input placeholder='Password' type="password" value={this.state.password} onChange={this.handlePasswordInputChange.bind(this)} />
-                  </Form.Field>
-                  <Form.Field>
-                    <Checkbox label='I agree to the Terms and Conditions' />
-                  </Form.Field>
-                  <Button type='submit' onClick={this.handleSubmit.bind(this)}>Submit</Button>
-                </Form>
+                <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+                  <Grid.Column style={{ maxWidth: '500px' }}>
+                    <Form size='large'>
+                      <Segment>
+                        <Form.Input
+                          fluid
+                          icon='user'
+                          iconPosition='left'
+                          placeholder='Email'
+                          value={this.state.email}
+                          onChange={this.handleEmailInputChange.bind(this)}
+                        />
+                        <Form.Input
+                          fluid
+                          icon='lock'
+                          iconPosition='left'
+                          placeholder='Password'
+                          type='password'
+                          value={this.state.password}
+                          onChange={this.handlePasswordInputChange.bind(this)}
+                        />
+                        <Form.Field align='left'>
+                          <Checkbox label='I agree to the Terms and Conditions' />
+                        </Form.Field>
+                        <Button
+                          color='teal'
+                          fluid
+                          size='large'
+                          type='submit' onClick={this.handleSubmit.bind(this)}
+                        >
+                          {this.state.modalForm.action}
+                        </Button>
+                      </Segment>
+                    </Form>
+                  </Grid.Column>
+                </Grid>
               </Modal.Content>
             </Modal>
           </Transition>
