@@ -152,9 +152,11 @@ class DesktopContainer extends Component {
               closeIcon
               onClose={this.onCloseIconClicked.bind(this)}
               open={this.state.modalForm.status}
+              style={{ width: '500px'}}
+              size='fullscreen'
             >
               <Modal.Content>
-                <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+                <Grid textAlign='center' style={{ height: '100%', backgroundColor: '#F8F8F9'  }} verticalAlign='middle'>
                   <Grid.Column style={{ maxWidth: '500px' }}>
                     <Form size='large'>
                       <Segment>
