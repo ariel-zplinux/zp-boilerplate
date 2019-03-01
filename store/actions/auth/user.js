@@ -27,11 +27,29 @@ export const userSignUpFailure = (data = { error: 'error'}) => {
   return action;
 };
 
-export const userLogIn = (data = { name}) => {
-    const credentials = { credentials: { email: "test@test.com", password: "string"}};
+export const userLogIn = ({ credentials}) => {
+  const action = {
+      type: actionTypes.USER_LOGIN,
+      data: credentials
+  };
 
-    return {
-        type: actionTypes.USER_LOGIN,
-        data: credentials
-    };
+  return action;
+};
+
+export const userLoggedIn = (data) => {
+  const action = {
+    type: actionTypes.USER_LOGGED_IN,
+    data
+  };
+
+  return action;
+};
+
+export const userLogInFailure = (data = { error: 'error'}) => {
+  const action = {
+    type: actionTypes.USER_LOGIN_FAILURE,
+    data
+  };
+
+  return action;
 };

@@ -49,9 +49,10 @@ class DesktopContainer extends Component {
     const { email, password } = this.state;
     const credentials = { email, password };
 
-    switch(this.state.modalForm) {
+    switch(this.state.modalForm.action) {
       case 'Login':
-        this.props.onPressSignUpButton({ credentials });
+        this.props.onPressLogInButton({ credentials });
+
         this.setState({
           modalForm: { status: false }
         });
@@ -66,11 +67,6 @@ class DesktopContainer extends Component {
       default:
         break;
     }
-
-    this.props.onPressSignUpButton({ credentials });
-    this.setState({
-      modalForm: { status: false }
-    });
   }
 
   onButtonSignUpClicked() {
@@ -209,7 +205,8 @@ DesktopContainer.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onPressSignUpButton: (data) => dispatch(actions.userSignUp(data))
+    onPressSignUpButton: (data) => dispatch(actions.userSignUp(data)),
+    onPressLogInButton: (data) => dispatch(actions.userLogIn(data))
   };
 };
 
