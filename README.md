@@ -2,7 +2,9 @@
 
 The purpose of this boilerplate is to start new projects using a Node/React stack.
 
-An immediate target is my home page.
+It currently uses ExpressJs, Loopback, NextJs, Redux and SemanticUI on top of Node/React.
+
+An immediate target is my home page web/mobile app.
 
 ## Stack
 
@@ -42,11 +44,11 @@ An immediate target is my home page.
 
 ### TODO
 
-- Firebase
-
 - React Native
 
 - End to end Testing
+
+- Firebase
 
 ## Instructions
 
