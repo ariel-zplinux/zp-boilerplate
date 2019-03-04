@@ -53,3 +53,11 @@ export const userLogInFailure = (data = { error: 'error'}) => {
 
   return action;
 };
+
+export const userInit = () => {
+  const action = {
+    type: actionTypes.USER_INIT
+  };
+
+  return action;
+};

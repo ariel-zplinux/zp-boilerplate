@@ -4,16 +4,18 @@ import { connect } from 'react-redux';
 import Link from 'next/link';
 import {
   Button,
+  Checkbox,
   Container,
+  Form,
   Grid,
+  Icon,
   Menu,
+  Message,
+  Modal,
   Responsive,
   Segment,
-  Visibility,
-  Modal,
-  Form,
-  Checkbox,
-  Transition
+  Transition,
+  Visibility
 } from 'semantic-ui-react'
 
 import * as actions from '../../store/actions/index.js';
@@ -27,6 +29,18 @@ class DesktopContainer extends Component {
       action: ''
     }
   };
+
+  componentDidUpdate(prevProps) {
+    // user was not connected and succeed to connect => close auth modal
+    if (!prevProps.user && this.props.user && this.state.modalForm.status) {
+      this.setState({
+        modalForm: {
+          status: false,
+          action: ''
+        }
+      });
+    }
+  }
 
   hideFixedMenu = () => this.setState({ fixed: false })
   showFixedMenu = () => this.setState({ fixed: true })
@@ -51,25 +65,20 @@ class DesktopContainer extends Component {
 
     switch(this.state.modalForm.action) {
       case 'Login':
-        this.props.onPressLogInButton({ credentials });
-
-        this.setState({
-          modalForm: { status: false }
-        });
+        this.props.onPressLogInSubmitButton({ credentials });
         break;
       case 'Signup':
-        this.props.onPressSignUpButton({ credentials });
-        this.setState({
-          modalForm: { status: false }
-        });
+        this.props.onPressSignUpSubmitButton({ credentials });
         break;
-
       default:
         break;
     }
   }
 
   onButtonSignUpClicked() {
+    // clean error/user in auth application state
+    this.props.onPressMenuAuthButton();
+
     this.setState({
       modalForm: {
         status: true,
@@ -79,6 +88,9 @@ class DesktopContainer extends Component {
   }
 
   onButtonLogInClicked() {
+    // clean error/user in auth application state
+    this.props.onPressMenuAuthButton();
+
     this.setState({
       modalForm: {
         status: true,
@@ -87,10 +99,59 @@ class DesktopContainer extends Component {
     });
   }
 
+  onButtonLogOutClicked() {
+    console.log('== LOGOUT')
+  }
+
   onCloseIconClicked() {
     this.setState({
       modalForm: { status: false }
     })
+  }
+
+  renderButtonLogin() {
+    // display Login button if user not connected
+    if (!this.props.user) {
+      return (
+        <Button
+          as='a'
+          style={{ marginLeft: '5px', marginRight: '5px'}}
+          onClick={this.onButtonLogInClicked.bind(this)}>
+          Login
+        </Button>
+      );
+    }
+  }
+
+  renderButtonSignup() {
+    // display Signup button if user not connected
+    if (!this.props.user) {
+      return (
+        <Button
+          as='a'
+          style={{ marginLeft: '2px', marginRight: '2px'}}
+          positive
+          onClick={this.onButtonSignUpClicked.bind(this)}>
+          Sign Up
+        </Button>
+      );
+    }
+  }
+
+  renderButtonLogout() {
+    // display Logout button if user connected
+    if (!!this.props.user) {
+      return  (
+        <Button
+          as='a'
+          style={{ marginLeft: '2px', marginRight: '2px'}}
+          color='teal'
+          onClick={this.onButtonLogOutClicked.bind(this)}
+        >
+          Log out
+        </Button>
+      );
+    }
   }
 
   render() {
@@ -125,19 +186,9 @@ class DesktopContainer extends Component {
                 </Menu.Item>
                 <Menu.Item position='right'>
                   <Button.Group>
-                    <Button
-                      as='a'
-                      style={{ marginLeft: '5px', marginRight: '5px'}}
-                      onClick={this.onButtonLogInClicked.bind(this)}>
-                      Login
-                    </Button>
-                    <Button
-                      as='a'
-                      style={{ marginLeft: '2px', marginRight: '2px'}}
-                      positive
-                      onClick={this.onButtonSignUpClicked.bind(this)}>
-                      Sign Up
-                    </Button>
+                    {this.renderButtonLogin()}
+                    {this.renderButtonSignup()}
+                    {this.renderButtonLogout()}
                   </Button.Group>
                 </Menu.Item>
               </Container>
@@ -154,8 +205,12 @@ class DesktopContainer extends Component {
               <Modal.Content>
                 <Grid textAlign='center' style={{ height: '100%', backgroundColor: '#F8F8F9'  }} verticalAlign='middle'>
                   <Grid.Column style={{ maxWidth: '500px' }}>
-                    <Form size='large'>
+                    <Form size='large' error={!!this.props.error}>
                       <Segment>
+                        <Message error>
+                          <Icon name="warning sign" />
+                          {this.state.modalForm.action} did not succeed.
+                        </Message>
                         <Form.Input
                           fluid
                           icon='user'
@@ -203,12 +258,20 @@ DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth.user,
+    error: state.auth.error
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    onPressSignUpButton: (data) => dispatch(actions.userSignUp(data)),
-    onPressLogInButton: (data) => dispatch(actions.userLogIn(data))
+    onPressSignUpSubmitButton: (data) => dispatch(actions.userSignUp(data)),
+    onPressLogInSubmitButton: (data) => dispatch(actions.userLogIn(data)),
+    onPressMenuAuthButton: () => dispatch(actions.userInit())
   };
 };
 
-export default connect(null, mapDispatchToProps)(DesktopContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DesktopContainer);
 

@@ -101,7 +101,7 @@ function userLogIn(credentials) {
       // throw error if error received
       if (response.error && !response.id) {
         console.log('== ERORR ')
-        throw new Error(data);
+        throw new Error(response);
       }
 
       return data;
