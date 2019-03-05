@@ -61,3 +61,29 @@ export const userInit = () => {
 
   return action;
 };
+
+export const userLogOut = (data) => {
+  const action = {
+      type: actionTypes.USER_LOGOUT,
+      data
+  };
+
+  return action;
+};
+
+export const userLoggedOut = () => {
+  const action = {
+    type: actionTypes.USER_LOGGED_OUT,
+  };
+
+  return action;
+};
+
+export const userLogOutFailure = (data = { error: 'error'}) => {
+  const action = {
+    type: actionTypes.USER_LOGOUT_FAILURE,
+    data
+  };
+
+  return action;
+};

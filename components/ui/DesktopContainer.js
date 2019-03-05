@@ -33,6 +33,7 @@ class DesktopContainer extends Component {
   componentDidUpdate(prevProps) {
     // user was not connected and succeed to connect => close auth modal
     if (!prevProps.user && this.props.user && this.state.modalForm.status) {
+      // close modal
       this.setState({
         modalForm: {
           status: false,
@@ -100,7 +101,7 @@ class DesktopContainer extends Component {
   }
 
   onButtonLogOutClicked() {
-    console.log('== LOGOUT')
+    this.props.onPressLogOutButton(this.props.user);
   }
 
   onCloseIconClicked() {
@@ -269,7 +270,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onPressSignUpSubmitButton: (data) => dispatch(actions.userSignUp(data)),
     onPressLogInSubmitButton: (data) => dispatch(actions.userLogIn(data)),
-    onPressMenuAuthButton: () => dispatch(actions.userInit())
+    onPressMenuAuthButton: () => dispatch(actions.userInit()),
+    onPressLogOutButton: (data) => dispatch(actions.userLogOut(data))
   };
 };
 

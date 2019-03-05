@@ -10,5 +10,8 @@ export {
   userSignUpFailure,
   userLoggedIn,
   userLogInFailure,
-  userInit
+  userInit,
+  userLogOut,
+  userLoggedOut,
+  userLogOutFailure
 } from './auth/user.js'

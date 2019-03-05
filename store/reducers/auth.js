@@ -69,6 +69,29 @@ const userInit = (state, action) => {
   };
 };
 
+const userLoggedOut = (state, action) => {
+  const updated = {
+    error: null,
+    user: null
+  }
+
+  return {
+    ...state,
+    ...updated
+  };
+};
+
+const userLogOutFailure = (state, action) => {
+  const updated = {
+    error: 'log out failure',
+  }
+
+  return {
+    ...state,
+    ...updated
+  };
+};
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -76,6 +99,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.USER_SIGNUP_FAILURE: return userSignUpFailure(state, action);
     case actionTypes.USER_LOGGED_IN: return userLoggedIn(state, action);
     case actionTypes.USER_LOGIN_FAILURE: return userLogInFailure(state, action);
+    case actionTypes.USER_LOGGED_OUT: return userLoggedOut(state, action);
+    case actionTypes.USER_LOGOUT_FAILURE: return userLogOutFailure(state, action);
     case actionTypes.USER_INIT: return userInit(state, action);
     default: return state;
   }

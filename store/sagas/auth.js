@@ -56,14 +56,14 @@ function userSignUp(credentials) {
 
       return null;
     })
-  }
+}
 
 export function* userLogInSaga(saga) {
   try {
     const credentials = saga.data;
     const user = yield userLogIn(credentials);
 
-    // user signed up
+    // user logged in
     if (user) {
       yield put(actions.userLoggedIn(user));
     }
@@ -111,5 +111,52 @@ function userLogIn(credentials) {
 
       return null;
     })
-  }
+}
 
+export function* userLogOutSaga(saga) {
+  try {
+    const {accessToken} = JSON.parse(saga.data);
+
+    const loggedOut = yield userLogOut(accessToken);
+
+    // user logged out
+    if (loggedOut) {
+      yield put(actions.userLoggedOut());
+    }
+    // failure
+    else {
+      yield put(actions.userLogOutFailure(data));
+    }
+
+    return true;
+  }
+  catch (error) {
+    console.log({error})
+
+    return false;
+  }
+};
+
+function userLogOut(accessToken) {
+  const url = `http://localhost:4000/api/Users/logout?access_token=${accessToken}`;
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      if (!data)
+        return true;
+
+      return false;
+    })
+    .catch((error) => {
+      console.log({error});
+
+      return null;
+    })
+}
