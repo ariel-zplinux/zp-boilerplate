@@ -13,7 +13,9 @@ class Index extends Component {
     super(props);
 
     this.state = {
-      status: null
+      messageFromWebSocket: null,
+      data: null,
+      from: null
     }
   }
 
@@ -30,21 +32,30 @@ class Index extends Component {
 
     this.socket.on('now', (data) => {
       this.setState({
-        status: data.message
+        messageFromWebSocket: data.message
       })
     });
   }
 
   // Functions
 
-  static prepareStatus(state) {
-    if (state.status) {
+  static prepareStatus(state, props) {
+    if (props.from && props.redux) {
+      return {
+        loading: false,
+        statusTitle: props.from,
+        statusContent: 'Received from Reducer'
+      };
+    }
+
+    if (state.messageFromWebSocket) {
       return {
         loading: false,
         statusTitle: 'LOADED FROM WEBSOCKET',
-        statusContent: state.status
+        statusContent: state.messageFromWebSocket
       };
     }
+
     return {
       loading: true,
       statusTitle: 'LOADING FROM WEBSOCKET',
@@ -55,7 +66,7 @@ class Index extends Component {
   // Render
 
   render() {
-    const { loading, statusTitle, statusContent } = Index.prepareStatus(this.state);
+    const { loading, statusTitle, statusContent } = Index.prepareStatus(this.state, this.props);
 
     return (
       <Layout>
@@ -89,4 +100,14 @@ class Index extends Component {
   }
 }
 
-export default StateManager(connect()(Index));
+const mapStateToProps = (state) => {
+  const from = state.auth.from || state.page.from;
+
+  return {
+    from,
+    user: state.auth.user,
+    redux: true
+  };
+};
+
+export default StateManager(connect(mapStateToProps)(Index));

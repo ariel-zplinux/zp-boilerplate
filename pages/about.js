@@ -18,8 +18,7 @@ export class About extends Component {
 
     this.state = {
       data: null,
-      from: null,
-      user: null
+      from: null
     };
   }
 
@@ -160,7 +159,8 @@ export class About extends Component {
   render() {
     const sourceMD = this.props.data ?
       this.props.data :
-      (this.state.data ? this.state.data : '')
+      (this.state.data ? this.state.data : '');
+
     const { loading, statusTitle, statusContent } = About.prepareStatus(this.state, this.props);
 
     return (

@@ -23,6 +23,7 @@ const userSignedUp = (state, action) => {
 const userSignUpFailure = (state, action) => {
   const updated = {
     error: action.data,
+    from: 'LOADED FROM Action userSignUpFailure (reducer)',
     user: null
   }
 
@@ -48,6 +49,7 @@ const userLoggedIn = (state, action) => {
 const userLogInFailure = (state, action) => {
   const updated = {
     error: action.data,
+    from: 'LOADED FROM Action userLogInFailure (reducer)',
     user: null
   }
 
@@ -60,6 +62,7 @@ const userLogInFailure = (state, action) => {
 const userInit = (state, action) => {
   const updated = {
     error: null,
+    from: 'LOADED FROM Action userInit (reducer)',
     user: null
   }
 
@@ -72,6 +75,7 @@ const userInit = (state, action) => {
 const userLoggedOut = (state, action) => {
   const updated = {
     error: null,
+    from: 'LOADED FROM Action userLogOut (reducer)',
     user: null
   }
 
@@ -84,6 +88,7 @@ const userLoggedOut = (state, action) => {
 const userLogOutFailure = (state, action) => {
   const updated = {
     error: 'log out failure',
+    from: 'LOADED FROM Action userLogOutFailure (reducer)',
   }
 
   return {
