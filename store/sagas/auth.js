@@ -26,10 +26,10 @@ export function* userSignUpSaga(saga) {
   }
 };
 
-function userSignUp(credentials) {
+function userSignUp(saga) {
   const url = 'http://localhost:4000/api/Users';
 
-  const params = JSON.stringify(credentials.credentials);
+  const params = JSON.stringify(saga.credentials);
 
   return fetch(url, {
     method: "POST",
@@ -48,8 +48,8 @@ function userSignUp(credentials) {
       if (response.error && !response.id) {
         throw new Error(data);
       }
-
-      return data;
+      // log in after successful signup
+      return userLogIn(saga.credentials);
     })
     .catch((error) => {
       console.log({error});
@@ -115,7 +115,7 @@ function userLogIn(credentials) {
 
 export function* userLogOutSaga(saga) {
   try {
-    const {accessToken} = JSON.parse(saga.data);
+    const {accessToken} = saga.data;
 
     const loggedOut = yield userLogOut(accessToken);
 
