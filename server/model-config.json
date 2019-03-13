@@ -38,6 +38,9 @@
     "dataSource": "db",
     "public": false
   },
+  "Email": {
+    "dataSource": "emailDs"
+  },
   "Message": {
     "dataSource": "db",
     "public": true

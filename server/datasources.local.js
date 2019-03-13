@@ -7,20 +7,47 @@ const user = process.env.DB_MONGO_USER || '';
 const password = process.env.DB_MONGO_PASSWORD || '';
 const database = process.env.DB_MONGO_DATABASE || 'messages';
 
-const mongoDatasource = {};
+const datasource = {
+  db: {
+    name: "db",
+    connector: "memory"
+  }
+};
 
 if (process.env.DB_MONGO_HOST) {
-  mongoDatasource.db = {
+  datasource.db = {
     host,
     port,
     url: `mongodb://${host}:${port}/${database}`,
     database,
-    name: 'db',
+    name: "db",
     user,
     password,
     connector: "mongodb",
     useNewUrlParser: true
   };
-
-  module.exports = mongoDatasource;
 }
+
+if (process.env.MAIL_SMTP_GMAIL_LOGIN && process.env.MAIL_SMTP_GMAIL_PASSWORD) {
+  datasource.emailDs = {
+    name: "emailDs",
+    connector: "mail",
+    transports: [
+      {
+        type: "smtp",
+        host: "smtp.gmail.com",
+        secure: true,
+        port: 465,
+        tls: {
+          rejectUnauthorized: false
+        },
+        auth: {
+          user: `${process.env.MAIL_SMTP_GMAIL_LOGIN}`,
+          pass: `${process.env.MAIL_SMTP_GMAIL_PASSWORD}`
+        }
+      }
+    ]
+  }
+}
+
+module.exports = datasource;
