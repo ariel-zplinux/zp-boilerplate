@@ -9,8 +9,8 @@ export const initialState = {
 
 const userSignedUp = (state, action) => {
   const updated = {
-    user: JSON.parse(action.data),
-    from: 'LOADED FROM Action userSignedUp (reducer)',
+    user: 'WAIT-FOR-EMAIL-VERIFICATION',
+    from: 'LOADED FROM Action userSignedUp (reducer) - Wait for email verification',
     error: null,
   };
 

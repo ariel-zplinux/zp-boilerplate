@@ -17,7 +17,8 @@
     "dataSource": "db"
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -44,5 +45,10 @@
   "Message": {
     "dataSource": "db",
     "public": true
+  },
+  "user": {
+    "dataSource": "db",
+    "public": true,
+    "options": {}
   }
 }

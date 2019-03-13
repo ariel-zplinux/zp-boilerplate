@@ -48,8 +48,11 @@ function userSignUp(saga) {
       if (response.error && !response.id) {
         throw new Error(data);
       }
+
       // log in after successful signup
-      return userLogIn(saga.credentials);
+      // return userLogIn(saga.credentials);
+      console.log({response})
+      return response;
     })
     .catch((error) => {
       console.log({error});

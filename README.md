@@ -133,3 +133,5 @@ Configuration of datasource is done in `server/datasources.local.js` that overwr
 - https://medium.com/front-end-hacking/next-js-redux-integration-3ab1a9ca5e1d
 
 - https://github.com/zeit/next.js/tree/canary/examples/with-jest
+
+- https://loopback.io/doc/en/lb3/User-management-example.html

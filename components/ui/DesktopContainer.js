@@ -112,7 +112,7 @@ class DesktopContainer extends Component {
 
   renderButtonLogin() {
     // display Login button if user not connected
-    if (!this.props.user) {
+    if (!this.props.user || this.props.user === 'WAIT-FOR-EMAIL-VERIFICATION') {
       return (
         <Button
           as='a'
@@ -126,7 +126,7 @@ class DesktopContainer extends Component {
 
   renderButtonSignup() {
     // display Signup button if user not connected
-    if (!this.props.user) {
+    if (!this.props.user || this.props.user === 'WAIT-FOR-EMAIL-VERIFICATION') {
       return (
         <Button
           as='a'
@@ -141,7 +141,7 @@ class DesktopContainer extends Component {
 
   renderButtonLogout() {
     // display Logout button if user connected
-    if (!!this.props.user) {
+    if (!!this.props.user && this.props.user !== 'WAIT-FOR-EMAIL-VERIFICATION') {
       return  (
         <Button
           as='a'
