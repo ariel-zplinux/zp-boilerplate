@@ -64,11 +64,17 @@ function userSignUp(saga) {
 export function* userLogInSaga(saga) {
   try {
     const credentials = saga.data;
-    const user = yield userLogIn(credentials);
+    const loggedIn = yield userLogIn(credentials);
+
+    const user = loggedIn && JSON.parse(loggedIn)
 
     // user logged in
-    if (user) {
+    if (user.accessToken) {
       yield put(actions.userLoggedIn(user));
+    }
+    // email not verified yet
+    else if (user.content && user.content.statusCode === 401 && user.content.code === "LOGIN_FAILED_EMAIL_NOT_VERIFIED") {
+      yield put(actions.userLogInFailure("Login failed - Email not verified"));
     }
     // failure
     else {

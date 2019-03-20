@@ -35,7 +35,7 @@ const userSignUpFailure = (state, action) => {
 
 const userLoggedIn = (state, action) => {
   const updated = {
-    user: JSON.parse(action.data),
+    user: action.data,
     from: 'LOADED FROM Action userLoggedIn (reducer)',
     error: null,
   };
