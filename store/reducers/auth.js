@@ -48,7 +48,7 @@ const userLoggedIn = (state, action) => {
 
 const userLogInFailure = (state, action) => {
   const updated = {
-    error: action.data,
+    error: action.data || state.error || 'Log in failure',
     from: 'LOADED FROM Action userLogInFailure (reducer)',
     user: null
   }

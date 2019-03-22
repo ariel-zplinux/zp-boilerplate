@@ -15,6 +15,7 @@ module.exports = function(app) {
       password: req.body.password
     }, 'user', function(err, token) {
       console.log({token})
+      console.log({err})
 
       if (err) {
         if(err.details && err.code === 'LOGIN_FAILED_EMAIL_NOT_VERIFIED'){

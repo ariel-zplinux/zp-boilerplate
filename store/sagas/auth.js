@@ -9,10 +9,15 @@ export function* userSignUpSaga(saga) {
     const user = yield userSignUp(credentials);
 
     // user signed up
-    if (user) {
-      yield put(actions.userSignedUp(user));
+    // { title: "Signed up successfully", content: "Please check your email and click on the verification link before logging in." }
+    if (user.title === "Signed up successfully") {
+      yield put(actions.userSignedUp(user.content));
     }
     // failure
+    // {error: Object { statusCode: 422, name: "ValidationError", message: "L'instance `user` n'est pas valide. … }
+    else if (user.error && user.error.message) {
+      yield put(actions.userSignUpFailure(user.error.message));
+    }
     else {
       yield put(actions.userSignUpFailure());
     }
@@ -44,14 +49,9 @@ function userSignUp(saga) {
       // Handle api call return
       const response = JSON.parse(data);
 
-      // throw error if error received
-      if (response.error && !response.id) {
-        throw new Error(data);
-      }
-
       // log in after successful signup
       // return userLogIn(saga.credentials);
-      console.log({response})
+
       return response;
     })
     .catch((error) => {
@@ -74,11 +74,11 @@ export function* userLogInSaga(saga) {
     }
     // email not verified yet
     else if (user.content && user.content.statusCode === 401 && user.content.code === "LOGIN_FAILED_EMAIL_NOT_VERIFIED") {
-      yield put(actions.userLogInFailure("Login failed - Email not verified"));
+      yield put(actions.userLogInFailure(`${user.title} - Email not verified`));
     }
     // failure
     else {
-      yield put(actions.userLogInFailure());
+      yield put(actions.userLogInFailure(user.title));
     }
 
     return true;
@@ -106,12 +106,6 @@ function userLogIn(credentials) {
     .then((data) => {
       // Handle api call return
       const response = JSON.parse(data);
-
-      // throw error if error received
-      if (response.error && !response.id) {
-        console.log('== ERORR ')
-        throw new Error(response);
-      }
 
       return data;
     })

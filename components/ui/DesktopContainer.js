@@ -210,7 +210,7 @@ class DesktopContainer extends Component {
                       <Segment>
                         <Message error>
                           <Icon name="warning sign" />
-                          {this.state.modalForm.action} did not succeed. {this.props.error}
+                          {this.props.error}
                         </Message>
                         <Form.Input
                           fluid
