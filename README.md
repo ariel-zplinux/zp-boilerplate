@@ -1,137 +1,114 @@
-## Zp Boilerplate
+Please find here my solution to your test task.
 
-The purpose of this boilerplate is to start new projects using a Node/React stack.
+## STACK
 
-It currently uses ExpressJs, Loopback, NextJs, Redux and SemanticUI on top of Node/React.
-
-An immediate target is my home page web/mobile app.
-
-## Stack
-
-### Current
-
-- ReactJs
-
-- NextJs
-
-- NodeJs
-
-- ExpressJs
-
-- Loopback
-
-- MongoDb (through Loopback)
-
-- Helmet
-
-- SocketIo
-
-- SemanticUI-React
-
-- Redux
-
-- Redux-saga
-
+- Node
 - Jest
 
-- Enzyme
-
-- Docker
-
-- Editorconfig
-
-- Dotenv
-
-### TODO
-
-- React Native
-
-- End to end Testing
-
-- Firebase
-
-## Instructions
+## INSTRUCTION
 
 ```shell
 git clone https://github.com/ariel-zplinux/zp-boilerplate.git
 cd zp-boilerplate
+git checkout HUBSIDE-WORK
 npm install
+npm test
 ```
 
-### In Developement mode
+## CODE
 
-```shell
-npm start
+### TEST
+```javascript
+import resolveObjects from './resolveObjects.js';
+
+describe('resolveObjects', () => {
+  it('Should generate correct output', () => {
+    const tests = [
+      {
+        input: {
+          a: {
+            b: {
+              c: 'z'
+            }
+          },
+          'a.b.d': 'y'
+        },
+        output: {
+          a: {
+            b: {
+              c: 'z',
+              d: 'y'
+            }
+          }
+        }
+      }
+    ]
+
+    tests.forEach((test) => {
+      expect(resolveObjects(test.input)).toEqual(test.output);
+    })
+  })
+});
 ```
 
-### In Production mode
+### FUNCTION
+```javascript
+const _ = require('lodash');
 
-```shell
-npm run build
-npm run prod
+const resolveObjects = (input) => {
+  if (typeof input === 'object') {
+    const output = {};
+
+    // return value of map not used
+    Object.keys(input).map((key) => {
+      const keyExploded = key.split('.');
+
+      // handle regular key (ie: 'a')
+      if (keyExploded.length === 1) {
+        output[key] = input[key]
+
+        return true;
+      }
+
+      // handle "stringified" key (ie: 'a.b.d')
+
+      // keep value
+      const value = input[key]
+
+      // start from leaf
+      // => {d: 'y'}
+      let tempNode = { [keyExploded[keyExploded.length - 1]]: value}
+
+      // explore branch upside until root of tree
+      for (let i=keyExploded.length - 2; i >= 0; i--) {
+        // assign current node to parent
+        tempNode = {
+          // key interpolation
+          [keyExploded[i]]: tempNode
+        };
+      }
+
+      // no deep merge
+      // output = { ...output, ...temp, };
+
+      // no deep merge
+      // Object.assign(output, temp)
+
+      // thank you lodash
+      _.merge(output, tempNode)
+
+      return true;
+    });
+
+    return output;
+  }
+
+  return null;
+};
+
+export default resolveObjects;
 ```
 
-### With Docker in local
+## REM
 
-```shell
-git clone https://github.com/ariel-zplinux/zp-boilerplate.git
-cd zp-boilerplate
-# build dev mode
-docker build -t "zp-boilerplate" .
-# build prod mode
-# docker build -t "zp-boilerplate:prod" -f Dockerfile.prod .
-docker run -p 4000:4000 "zp-boilerplate"
-```
-
-### With Docker from Docker Hub in production mode
-
-Docker Hub not updated continuously.
-
-```shell
-docker pull zplinuxoss/zp-boilerplate:prod
-docker run -p 4000:4000 zplinuxoss/zp-boilerplate:prod
-```
-
-## Configuration
-
-### Environment variables
-
-Credentials are supposed to be stored in environment variables.
-
-Sample in `.env.template`, actual environment variables in `.env`.
-
-`.env` is git-ignored by default.
-
-### Mongo connector
-
-If `DB_MONGO_HOST` environment variable is set, default datasource (named 'db') will be persistent and using a MongoDb server, instead of default volatile in-memory datasource.
-
-Configuration of datasource is done in `server/datasources.local.js` that overwrite `server/datasources.json`.
-
-## Screenshot
-
-### Desktop
-
-![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/master/static/assets/images/screenshot/Desktop.png "zp-boilerplate on desktop")
-
-### Mobile
-
-![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/master/static/assets/images/screenshot/Mobile.png "zp-boilerplate on mobile")
-
-## Resources
-
-- https://medium.com/@markcolling/integrating-socket-io-with-next-js-33c4c435065e
-
-- https://learnnextjs.com/
-
-- https://www.udemy.com/react-the-complete-guide-incl-redux/learn/v4/overview
-
-- https://react.semantic-ui.com/layouts/homepage
-
-- https://expressjs.com/en/advanced/best-practice-security.html
-
-- https://medium.com/front-end-hacking/next-js-redux-integration-3ab1a9ca5e1d
-
-- https://github.com/zeit/next.js/tree/canary/examples/with-jest
-
-- https://loopback.io/doc/en/lb3/User-management-example.html
+- For simplicity, I've used lodash package do perform deep merge.
