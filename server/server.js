@@ -3,6 +3,8 @@
 const loopback = require('loopback');
 const boot = require('loopback-boot');
 
+const resolveObjectsServer = require('../lib/resolveObjectsServer.js')
+
 // const app = require('express')();
 const app = module.exports = loopback();
 
@@ -76,6 +78,21 @@ nextApp.prepare().then(() => {
   app.get(/^(?!\/api).*/, (req, res) => {
     return nextHandler(req, res);
   });
+
+  app.get('/api/hubside/objects', (req, res) => {
+    const input = {
+      a: {
+        b: {
+          c: 'z'
+        }
+      },
+      'a.b.d': 'y'
+    };
+
+    const output  = resolveObjectsServer(input)
+
+    res.send(JSON.stringify(output))
+  })
 
   server.listen(PORT, (err) => {
     if (err) throw err;

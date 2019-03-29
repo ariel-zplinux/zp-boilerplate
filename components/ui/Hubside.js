@@ -101,7 +101,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onPressResolveClientButton: () => dispatch(actions.resolveClient()),
-    onPressResolveServer: () => dispatch(actions.resolveServer()),
+    onPressResolveServerButton: () => dispatch(actions.resolveServer()),
   };
 };
 

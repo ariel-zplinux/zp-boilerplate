@@ -32,3 +32,47 @@ function resolveClient(input) {
 
   return output;
 }
+
+export function* resolveServerSaga() {
+  try {
+    const input = {
+      a: {
+        b: {
+          c: 'z'
+        }
+      },
+      'a.b.d': 'y'
+    };
+    console.log({input})
+    const output = yield resolveServer(input);
+    yield put(actions.objectsResolved({
+      output
+    }));
+
+    return true;
+  }
+  catch (error) {
+    console.log({error})
+
+    return false;
+  }
+};
+
+function resolveServer(input) {
+  const url = `http://localhost:4000/api/hubside/objects`;
+
+  console.log('PASS')
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then((response) => response.text())
+    .then((data) => JSON.parse(data))
+    .catch((error) => {
+      console.log({error});
+
+      return null;
+    })
+}
