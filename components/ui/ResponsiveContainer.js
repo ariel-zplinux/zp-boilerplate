@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import DesktopContainer from './DesktopContainer.js';
-import MobileContainer from './MobileContainer.js';
+// import MobileContainer from './MobileContainer.js';
 
 const ResponsiveContainer = ({ children }) => (
   <div>
     <DesktopContainer>{ children }</DesktopContainer>
-    <MobileContainer>{ children }</MobileContainer>
+    {/* <MobileContainer>{ children }</MobileContainer> */}
   </div>
 )
 

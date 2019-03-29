@@ -8,6 +8,8 @@ import ResponsiveContainer from '../components/ui/ResponsiveContainer.js';
 import Status from '../components/ui/Status.js';
 import StateManager from '../components/state/StateManager.js';
 
+import Hubside from '../components/ui/Hubside.js';
+
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +84,9 @@ class Index extends Component {
               Welcome to {this.props.appName}
             </Divider>
 
-            <p className="zp"> The purpose of this boilerplate is to start new projects using a React stack.</p>
+            <p className="zp"> Test task using Node/React stack.</p>
+
+            <Hubside />
           </div>
           <style jsx global>{`
                         p.zp {

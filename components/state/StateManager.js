@@ -7,12 +7,17 @@ import createSagaMiddleware from 'redux-saga';
 
 import pageReducers, { initialState as pageInitialState } from '../../store/reducers/pages.js';
 import authReducer, { initialState as authInitialState } from '../../store/reducers/auth.js';
-import { watchAbout, watchAuth } from '../../store/sagas/index.js'
+
+import hubsideReducer, { initialState as hubsideInitialState } from '../../store/reducers/hubside.js';
+
+import { watchAbout, watchAuth, watchHubside } from '../../store/sagas/index.js'
 
 
 const rootReducer = combineReducers({
   page: pageReducers,
-  auth: authReducer
+  auth: authReducer,
+
+  hubside: hubsideReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -25,6 +30,8 @@ const store = createStore(
 sagaMiddleware.run(watchAbout);
 sagaMiddleware.run(watchAuth);
 
+sagaMiddleware.run(watchHubside);
+
 const StateManager = (App) => {
   class StateManagerClass extends Component {
     constructor(props) {
@@ -32,7 +39,9 @@ const StateManager = (App) => {
 
       this.state = {
         page: { ...pageInitialState },
-        auth: { ...authInitialState }
+        auth: { ...authInitialState },
+
+        hubside: { ...hubsideInitialState}
       };
     }
 
