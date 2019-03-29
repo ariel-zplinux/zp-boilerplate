@@ -201,6 +201,11 @@ const resolveObjects = (input) => {
 export default resolveObjects;
 ```
 
-## REM
+# SCREENSHOTS
+![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/HUBSIDE-WORK/static/assets/images/screenshot/hubside-index.png "index")
+
+![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/HUBSIDE-WORK/static/assets/images/screenshot/hubside-resolve-server.png "resolve from server")
+
+# REM
 
 - For simplicity, I've used lodash package do perform deep merge.
