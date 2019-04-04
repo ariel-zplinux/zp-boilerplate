@@ -7,11 +7,12 @@ export function* userSignUpSaga(saga) {
 
   try {
     const user = yield userSignUp(credentials);
+    console.log({user, credentials})
 
     // user signed up
     // { title: "Signed up successfully", content: "Please check your email and click on the verification link before logging in." }
-    if (user.title === "Signed up successfully") {
-      yield put(actions.userSignedUp(user.content));
+    if (user.title === "Signed up successfully" || (user.email && user.id)) {
+      yield put(actions.userSignedUp(user.content || user.email));
     }
     // failure
     // {error: Object { statusCode: 422, name: "ValidationError", message: "L'instance `user` n'est pas valide. … }
@@ -44,8 +45,13 @@ function userSignUp(saga) {
     },
     body: params
   })
-    .then((response) => response.text())
+    .then((response) => {
+      console.log({response});
+
+      return response.text()
+    })
     .then((data) => {
+      console.log({data})
       // Handle api call return
       const response = JSON.parse(data);
 

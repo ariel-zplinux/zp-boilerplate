@@ -18,7 +18,7 @@ export const userSignedUp = (data) => {
   return action;
 };
 
-export const userSignUpFailure = (data = { error: 'error'}) => {
+export const userSignUpFailure = (data = 'Empty error message') => {
   const action = {
     type: actionTypes.USER_SIGNUP_FAILURE,
     data

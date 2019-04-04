@@ -4,9 +4,15 @@ const config = require('../../server/config.json');
 const senderAddress = 'contact@zplinux.com';
 
 module.exports = function(User) {
+
+  // Disable email verifaction when registering if mail not configured
+  if (!process.env.MAIL_SMTP_ENABLED) {
+    // configured as true by default
+    User.settings.emailVerificationRequired = false;
+  }
   // send verification email after registration
   User.afterRemote('create', function(context, user, next) {
-    console.log({user, context})
+    // console.log({user, context})
     const options = {
       type: 'email',
       to: user.email,
@@ -16,17 +22,25 @@ module.exports = function(User) {
       user: user
     };
 
-    user.verify(options, function(err, response) {
-      if (err) {
-        User.deleteById(user.id);
-        return next(err);
-      }
-      context.res.send({
-        title: 'Signed up successfully',
-        content: 'Please check your email and click on the verification link ' +
-            'before logging in.',
+    // Use verification by mail only if mail configured
+    if (process.env.MAIL_SMTP_ENABLED) {
+      console.log('---- will verify')
+      user.verify(options, function(err, response) {
+        console.log({err, response})
+        if (err) {
+          User.deleteById(user.id);
+          return next(err);
+        }
+        context.res.send({
+          title: 'Signed up successfully',
+          content: 'Please check your email and click on the verification link ' +
+              'before logging in.',
+        });
       });
-    });
+    }
+    else
+      next();
+
   });
 
   // Method to render

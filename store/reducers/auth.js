@@ -8,6 +8,7 @@ export const initialState = {
 };
 
 const userSignedUp = (state, action) => {
+  console.log({action})
   const updated = {
     user: 'WAIT-FOR-EMAIL-VERIFICATION',
     from: 'LOADED FROM Action userSignedUp (reducer) - Wait for email verification',
@@ -22,7 +23,7 @@ const userSignedUp = (state, action) => {
 
 const userSignUpFailure = (state, action) => {
   const updated = {
-    error: action.data,
+    error: action && action.data,
     from: 'LOADED FROM Action userSignUpFailure (reducer)',
     user: null
   }

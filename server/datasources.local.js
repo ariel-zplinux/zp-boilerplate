@@ -28,7 +28,8 @@ if (process.env.DB_MONGO_HOST) {
   };
 }
 
-if (process.env.MAIL_SMTP_GMAIL_LOGIN && process.env.MAIL_SMTP_GMAIL_PASSWORD) {
+if (process.env.MAIL_SMTP_GMAIL_ENABLED && process.env.MAIL_SMTP_GMAIL_LOGIN && process.env.MAIL_SMTP_GMAIL_PASSWORD) {
+  console.log('=-- PASS')
   datasource.emailDs = {
     name: "emailDs",
     connector: "mail",
