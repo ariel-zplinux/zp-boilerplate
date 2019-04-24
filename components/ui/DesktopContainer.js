@@ -216,7 +216,7 @@ class DesktopContainer extends Component {
                           fluid
                           icon='user'
                           iconPosition='left'
-                          placeholder='Email'
+                          placeholder='Username'
                           value={this.state.email}
                           onChange={this.handleEmailInputChange.bind(this)}
                         />

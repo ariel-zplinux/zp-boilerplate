@@ -3,6 +3,8 @@ const config = require('../../server/config.json');
 //Replace this address with your actual address
 const senderAddress = 'contact@zplinux.com';
 
+const domainName = 'foncia.com';
+
 module.exports = function(User) {
 
   // Disable email verifaction when registering if mail not configured
@@ -10,6 +12,29 @@ module.exports = function(User) {
     // configured as true by default
     User.settings.emailVerificationRequired = false;
   }
+
+  // Allow to signup with username
+  User.observe('before save', function filterProperties(ctx, next) {
+    const user = ctx.instance;
+
+    if (user) {
+      user.email = `${user.email}@${domainName}`;
+    }
+
+    next();
+  });
+
+  // Allow to login with username
+  User.observe('access', function filterProperties(ctx, next) {
+    const user = ctx.query.where;
+
+    if (user) {
+      user.email = `${user.email}@${domainName}`;
+    }
+
+    next();
+  });
+
   // send verification email after registration
   User.afterRemote('create', function(context, user, next) {
     // console.log({user, context})
