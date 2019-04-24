@@ -47,5 +47,19 @@
     "dataSource": "db",
     "public": true,
     "options": {}
+  },
+  "Client": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Lot": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Gestionnaire": {
+    "dataSource": "db",
+    "public": true
   }
+
+
 }

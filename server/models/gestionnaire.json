@@ -1,0 +1,16 @@
+{
+  "name": "Gestionnaire",
+  "plural": "Gestionnaires",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true,
+    "mongodb": {
+      "collection": "gestionnaires"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
