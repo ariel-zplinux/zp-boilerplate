@@ -5,7 +5,7 @@ module.exports = function(app) {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.enableAuth();
+  app.enableAuth({ datasource: 'db' });
 
   const User = app.models.user;
 
