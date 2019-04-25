@@ -51,11 +51,14 @@ module.exports = function(app) {
 
 
   //log a user out
-  app.get('/logout', function(req, res, next) {
-    if (!req.accessToken) return res.sendStatus(401);
-    User.logout(req.accessToken.id, function(err) {
+  app.get('/api/Users/logout', function(req, res, next) {
+    const token = req.query.access_token;
+
+    if (!token) return res.sendStatus(401);
+    User.logout(token, function(err) {
       if (err) return next(err);
-      res.redirect('/');
+
+      res.sendStatus(204)
     });
   });
 
