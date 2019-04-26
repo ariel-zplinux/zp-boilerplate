@@ -35,9 +35,10 @@ const userSignUpFailure = (state, action) => {
 }
 
 const userLoggedIn = (state, action) => {
+  const token = action.data && action.data.accessToken;
   const updated = {
     user: action.data,
-    from: 'LOADED FROM Action userLoggedIn (reducer)',
+    from: `LOADED FROM Action userLoggedIn (reducer) - Token: ${token}`,
     error: null,
   };
 
