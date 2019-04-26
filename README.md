@@ -1,96 +1,144 @@
-## Zp Boilerplate
+# Foncia test with Node
 
-The purpose of this boilerplate is to start new projects using a Node/React stack.
+This project was bootstrapped with my Node/React boilerplate. (https://github.com/ariel-zplinux/zp-boilerplate)
 
-It currently uses ExpressJs, Loopback, NextJs, Redux and SemanticUI on top of Node/React.
+Stack
+-----
 
-An immediate target is my home page web/mobile app.
-
-## Stack
-
-### Current
-
-- ReactJs
-
-- NextJs
-
-- NodeJs
-
-- ExpressJs
-
+- Node
+- Express
 - Loopback
-
-- MongoDb (through Loopback)
-
-- Helmet
-
-- SocketIo
-
-- SemanticUI-React
-
-- Redux
-
-- Redux-saga
-
-- Jest
-
-- Enzyme
-
 - Docker
+- Mongo
 
-- Editorconfig
+Quick Start
+-----------
 
-- Dotenv
+Restore DB dump.
 
-### TODO
+```shell
+docker create --name foncia-test-db --expose 27017 mongo
+docker start foncia-test-db
 
-- React Native
+mongorestore -d myFonciaDB myFonciaBdd/ --host 127.0.0.1 --port 27017
+```
 
-- End to end Testing
-
-- Firebase
-
-## Instructions
+Install application.
 
 ```shell
 git clone https://github.com/ariel-zplinux/zp-boilerplate.git
 cd zp-boilerplate
+git checkout FONCIA-TEST
 npm install
-```
-
-### In Developement mode
-
-```shell
+cp .env.template .env
 npm start
 ```
 
-### In Production mode
+Launch tests (with server already started)
 
 ```shell
-npm run build
-npm run prod
+npm test
 ```
 
-### With Docker in local
+API endpoint
+-------------
+
+|HTTP Method|Url|Parameters|Description|
+|---|---|---|---|
+|GET|/api/Clients|pagination, limit, skip, params|Search clients|
+|GET|/api/Gestionnaire/combinations||Retrieve password combination from authenticated gestionnaire|
+|POST|/api/Users|email, password|Sign up user|
+|POST|/api/Users/login|email, password|Log in user|
+|GET|/api/Users/logout||Log out (token to pass in header)|
+
+# TODO
+
+- associate User with Gestionnaire
+
+- search clients with POST method instead of GET, to hide params for url
+
+- add field quantity to Client (explanation in Entities/Gestionnaire part)
+
+- refactor calculatePasswordCombinations function to have no side effect
+
+- disable routes not expected
+
+- authentication on gestionnaire password
+
+# Implementation
+
+
+## Authentication
+
+This implementation rely on Loopback.
+
+API access are restricted to authenticated user by ACLs on models.
+
+```javascript
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "find"
+    }
+```
+
+Authentication is here based on (username/password) step only.
+
+Restriction on Gestionnaire's "numeros", a combination of passwords, is to be defined and done.
+
+## Entities
+
+### User
+
+Internal application (and Loopback) User model.
+It's designed to accept a username as login key.
+When request is received username is translated to `${username}@foncia.com` to keep it simple in Loopback.
+
+It could be improved
+
+### Gestionnaire
+
+Must be associated with User, email can be a common key.
+
+### Clients
+
+Find action is filtered by pagination/params.
+
+Params are name, email and quantity
+
+Quantity can be calculated by counting related Lot for each clients, it can be done with Loopback.
+It's heavy by design to do it this way (1 useless DB access), I propose to add a 'quantity' field to Client model.
+This field would be incremented by 1 on each create action on related Lot, afer creation of Lot.
+
+There are other options also to prevent this DB call, like access to a cache.
+
+### Lots
+
+Should increase Client.quantity on create action.
+
+
+## Testing
+
+To launch
 
 ```shell
-git clone https://github.com/ariel-zplinux/zp-boilerplate.git
-cd zp-boilerplate
-# build dev mode
-docker build -t "zp-boilerplate" .
-# build prod mode
-# docker build -t "zp-boilerplate:prod" -f Dockerfile.prod .
-docker run -p 4000:4000 "zp-boilerplate"
+npm test
 ```
 
-### With Docker from Docker Hub in production mode
+Jest was used before for unit testing, I've tested my binaryTreeDFS function with it. (lib/calculatePasswordCombinations.test.js)
 
-Docker Hub not updated continuously.
+I've also used Jest with success to tests API calls (server/models/user.test.js, server/models/gestionnaire.test.js and  server/models/client.test.js)
 
-```shell
-docker pull zplinuxoss/zp-boilerplate:prod
-docker run -p 4000:4000 zplinuxoss/zp-boilerplate:prod
-```
+Tests are performed in '.test.js' files in '/lib/' and '/server/models/' folders.
 
 ## Configuration
 
@@ -107,16 +155,6 @@ Sample in `.env.template`, actual environment variables in `.env`.
 If `DB_MONGO_HOST` environment variable is set, default datasource (named 'db') will be persistent and using a MongoDb server, instead of default volatile in-memory datasource.
 
 Configuration of datasource is done in `server/datasources.local.js` that overwrite `server/datasources.json`.
-
-## Screenshot
-
-### Desktop
-
-![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/master/static/assets/images/screenshot/Desktop.png "zp-boilerplate on desktop")
-
-### Mobile
-
-![alt text](https://github.com/ariel-zplinux/zp-boilerplate/raw/master/static/assets/images/screenshot/Mobile.png "zp-boilerplate on mobile")
 
 ## Resources
 
@@ -135,3 +173,9 @@ Configuration of datasource is done in `server/datasources.local.js` that overwr
 - https://github.com/zeit/next.js/tree/canary/examples/with-jest
 
 - https://loopback.io/doc/en/lb3/User-management-example.html
+
+- https://github.com/strongloop/loopback-example-access-control
+
+- https://loopback.io/doc/en/lb3/Skip-filter.html
+
+- https://github.com/ariel-zplinux/zp-boilerplate
