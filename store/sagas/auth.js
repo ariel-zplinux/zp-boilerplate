@@ -150,7 +150,7 @@ function userLogOut(accessToken) {
   const url = `http://localhost:4000/api/Users/logout?access_token=${accessToken}`;
 
   return fetch(url, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json"
