@@ -14,8 +14,6 @@ module.exports = function(app) {
       email: req.body.email,
       password: req.body.password
     }, 'user', function(err, token) {
-      // console.log({token})
-      // console.log({err})
 
       if (err) {
         if(err.details && err.code === 'LOGIN_FAILED_EMAIL_NOT_VERIFIED'){
@@ -52,7 +50,7 @@ module.exports = function(app) {
 
   //log a user out
   app.get('/api/Users/logout', function(req, res, next) {
-    const token = req.query.access_token;
+    const token = (req.accessToken && req.accessToken.id) || req.query.access_token;
 
     if (!token) return res.sendStatus(401);
     User.logout(token, function(err) {
@@ -61,6 +59,17 @@ module.exports = function(app) {
       res.sendStatus(204)
     });
   });
+
+  app.delete('/api/Users/:id', function(req, res, next) {
+    const token = (req.accessToken && req.accessToken.id) || req.query.access_token;
+    const id = req.params.id;
+
+    if (!token) return res.sendStatus(401);
+    User.destroyById(id, function(err) {
+      if (err) return next(err);
+      res.send("OK")
+    });
+  })
 
   // TODO
   //send an email with instructions to reset an existing user's password
