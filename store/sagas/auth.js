@@ -7,7 +7,6 @@ export function* userSignUpSaga(saga) {
 
   try {
     const user = yield userSignUp(credentials);
-    console.log({user, credentials})
 
     // user signed up
     // { title: "Signed up successfully", content: "Please check your email and click on the verification link before logging in." }
@@ -46,12 +45,9 @@ function userSignUp(saga) {
     body: params
   })
     .then((response) => {
-      console.log({response});
-
       return response.text()
     })
     .then((data) => {
-      console.log({data})
       // Handle api call return
       const response = JSON.parse(data);
 
@@ -71,7 +67,6 @@ export function* userLogInSaga(saga) {
   try {
     const credentials = saga.data;
     const loggedIn = yield userLogIn(credentials);
-
     const user = loggedIn && JSON.parse(loggedIn)
 
     // user logged in

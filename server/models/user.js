@@ -12,7 +12,6 @@ module.exports = function(User) {
   }
   // send verification email after registration
   User.afterRemote('create', function(context, user, next) {
-    // console.log({user, context})
     const options = {
       type: 'email',
       to: user.email,
@@ -24,9 +23,7 @@ module.exports = function(User) {
 
     // Use verification by mail only if mail configured
     if (process.env.MAIL_SMTP_ENABLED) {
-      console.log('---- will verify')
       user.verify(options, function(err, response) {
-        console.log({err, response})
         if (err) {
           User.deleteById(user.id);
           return next(err);
@@ -55,9 +52,8 @@ module.exports = function(User) {
 
   //send password reset link when requested
   User.on('resetPasswordRequest', function(info) {
-    const url = 'http://' + config.host + ':' + config.port + '/reset-password';
-    const html = 'Click <a href="' + url + '?access_token=' +
-        info.accessToken.id + '">here</a> to reset your password';
+    const url = `http://${config.host}:${config.port}/reset-password`;
+    const html = `Click <a href="${url}?access_token=${info.accessToken.id}">here</a> to reset your password`;
 
     User.app.models.Email.send({
       to: info.email,

@@ -21,28 +21,18 @@ class MobileContainer extends Component {
   state = {
     fixed: 'top',
     visible: false
-  }
+  };
 
-  handleToggle = () => this.setState({ sidebarOpened: !this.state.sidebarOpened })
+  handleToggle = () => this.setState({ sidebarOpened: !this.state.sidebarOpened });
 
-  hideFixedMenu = () => {
-    console.log('=== onBottomPassedReverse')
+  hideFixedMenu = () => this.setState({ fixed: null });
+  showFixedMenu = () => this.setState({ fixed: 'top' });
 
-    this.setState({
-      fixed: null
-    })
-  }
-  showFixedMenu = () => {
-    console.log('=== onBottomPassed')
-
-    this.setState({ fixed: 'top' })
-  }
-
-  toggleVisibility = () => this.setState({ visible: !this.state.visible })
+  toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children } = this.props
-    const { sidebarOpened, fixed, visible } = this.state
+    const { children } = this.props;
+    const { sidebarOpened, fixed, visible } = this.state;
 
     return (
       <Responsive {...Responsive.onlyMobile}>

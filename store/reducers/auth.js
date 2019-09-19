@@ -8,7 +8,6 @@ export const initialState = {
 };
 
 const userSignedUp = (state, action) => {
-  console.log({action})
   const updated = {
     user: 'WAIT-FOR-EMAIL-VERIFICATION',
     from: 'LOADED FROM Action userSignedUp (reducer) - Wait for email verification',
