@@ -1,0 +1,35 @@
+{
+  "name": "Todo",
+  "plural": "Todos",
+  "properties": {
+    "id": {
+      "type": "Number",
+      "id": true,
+      "description": "Todo ID"
+    },
+    "owner": {
+      "type": "Number",
+      "id": true,
+      "description": "User ID"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "string",
+      "required": true
+    },
+    "done": {
+      "type": "Boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "TimeStamp": true
+  }
+}
