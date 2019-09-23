@@ -1,0 +1,41 @@
+{
+  "name": "TodoList",
+  "plural": "TodosLists",
+  "properties": {
+    "id": {
+      "type": "Number",
+      "id": true,
+      "description": "Todo ID"
+    },
+    "owner": {
+      "type": "Number",
+      "id": true,
+      "description": "User ID"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "todos": {
+      "type": "Number",
+      "required": true
+    },
+    "done": {
+      "type": "Boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "todos": {
+      "type": "hasMany",
+      "model": "Todo",
+      "foreignKey": "todoListId"
+    }
+  },
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "TimeStamp": true
+  }
+}
