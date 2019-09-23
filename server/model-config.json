@@ -20,6 +20,9 @@
   "Todo": {
     "dataSource": "db"
   },
+  "TodoList": {
+    "dataSource": "db"
+  },
   "User": {
     "dataSource": "db",
     "public": false
