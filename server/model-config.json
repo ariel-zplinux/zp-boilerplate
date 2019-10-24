@@ -47,5 +47,8 @@
     "dataSource": "db",
     "public": true,
     "options": {}
+  },
+  "Email": {
+    "dataSource": null
   }
 }

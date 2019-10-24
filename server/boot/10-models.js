@@ -1,13 +1,12 @@
 'use strict';
 
 module.exports = function(app) {
-  // Create Email model using 'emailDs'
-  // console.log({boot: app.datasources.emailDs })
-  if (app.datasources.emailDs) {
-  // create a model
-    const Email = app.registry.createModel({
-      name: 'Email'
+  // Attach model Email to datasource emailDs if emailDs defined
+  if (app.dataSources.emailDs) {
+    const models = app.models();
+    models.forEach(function(Model) {
+      if (Model.modelName === "Email")
+        Model.attachTo(app.dataSources.emailDs)
     });
-    const emailModel = app.model(Email, { dataSource: 'emailDs'})
    }
 }
