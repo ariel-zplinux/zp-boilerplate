@@ -1,24 +1,35 @@
 import React from 'react';
 import { Checkbox, Message, Input, Icon } from 'semantic-ui-react';
 
-const Todo = (props) => (
-  <Message icon>
-    <Checkbox style={todoStyle.checkbox}/>
-    <Message.Content style={todoStyle.content}>
-      <Input defaultValue={props.content}></Input>
-    </Message.Content>
-  </Message>
-);
+class Todo extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      content: props.content || "",
+      checked: false
+    }
+  }
+
+  render() {
+    return (
+      <Message icon>
+        <Checkbox style={todoStyle.checkbox} onChange={() => this.setState({checked: !this.state.checked})}/>
+        <Message.Content style={todoStyle.content}>
+          <Input
+            defaultValue={this.props.content}
+            disabled={this.state.checked}
+          ></Input>
+        </Message.Content>
+      </Message>
+    )
+  }
+}
 
 const todoStyle = {
-  checkbox: {
-    // marginRight: "20px",
-  },
   content: {
     marginRight: "10px",
     marginLeft: "10px",
-
-    textDecorationLine: "line-through"
   }
 }
 
