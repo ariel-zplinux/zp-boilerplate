@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Message, Input, Icon } from 'semantic-ui-react';
+import { Checkbox, Message, Input } from 'semantic-ui-react';
 
 class Todo extends React.Component {
   constructor(props) {
