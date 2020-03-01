@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import Layout from '../components/ui/Layout.js';
 import ResponsiveContainer from '../components/ui/ResponsiveContainer.js';
-import TodoList from '../components/ui/mobile/TodoList.js'
+import TodoList from '../components/ui/mobile/TodoList.js';
+import TodoInput from '../components/ui/mobile/TodoInput.js';
 import StateManager from '../components/state/StateManager.js';
 
 class Todos extends Component {
@@ -16,11 +17,14 @@ class Todos extends Component {
       <Layout>
         <ResponsiveContainer>
           <div className="zp">
+            <TodoInput />
             <TodoList />
           </div>
           <style jsx global>{`
             div.zp {
-                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                position: relative;
             }
         `}
           </style>

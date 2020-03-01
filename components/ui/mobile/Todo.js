@@ -16,10 +16,7 @@ class Todo extends React.Component {
       <Message icon>
         <Checkbox style={todoStyle.checkbox} onChange={() => this.setState({checked: !this.state.checked})}/>
         <Message.Content style={todoStyle.content}>
-          <Input
-            defaultValue={this.props.content}
-            disabled={this.state.checked}
-          ></Input>
+          {this.props.content}
         </Message.Content>
       </Message>
     )

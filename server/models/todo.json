@@ -22,7 +22,8 @@
     },
     "done": {
       "type": "Boolean",
-      "required": true
+      "required": true,
+      "default": false
     }
   },
   "validations": [],

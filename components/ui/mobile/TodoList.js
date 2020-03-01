@@ -14,6 +14,10 @@ class TodoList extends React.Component {
         {content: "todo4"},
         {content: "todo5"},
         {content: "todo6"},
+        {content: "todo7"},
+        {content: "todo4"},
+        {content: "todo5"},
+        {content: "todo6"},
         {content: "todo7"}
       ]
     }
@@ -35,17 +39,21 @@ class TodoList extends React.Component {
 
   render() {
     return (
-      <List>
-        {this.renderTodos()}
-      </List>
+      <div style={todoListStyle.list}>
+        <List>
+          {this.renderTodos()}
+        </List>
+      </div>
     )
   }
 }
 
 const todoListStyle = {
-  content: {
-    marginRight: "10px",
-    marginLeft: "10px",
+  list: {
+    margin: "5px",
+    overflowY: "auto",
+    height: "500px",
+    position: "relative"
   }
 }
 

@@ -266,7 +266,7 @@ MobileContainer.propTypes = {
 }
 
 const mobileChildrenStyle = {
-  marginTop: '50px'
+  marginTop: '5px'
 }
 
 // export default MobileContainer;
