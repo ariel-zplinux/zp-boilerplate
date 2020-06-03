@@ -183,6 +183,11 @@ class DesktopContainer extends Component {
                         About
                       </Button>
                     </Link>
+                    <Link href='/todos'>
+                      <Button as='a' style={{ marginLeft: '5px', marginRight: '5px'}}>
+                        Tasks
+                      </Button>
+                    </Link>
                     </Button.Group>
                 </Menu.Item>
                 <Menu.Item position='right'>

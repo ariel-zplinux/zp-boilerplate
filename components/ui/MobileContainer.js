@@ -185,13 +185,19 @@ class MobileContainer extends Component {
               <Menu.Item name='home'>
                 <Icon name='home' />
                 Home
-                            </Menu.Item>
+              </Menu.Item>
             </Link>
             <Link href='/about'>
               <Menu.Item name='about'>
                 <Icon name='github' />
                 About
-                        </Menu.Item>
+              </Menu.Item>
+            </Link>
+            <Link href='/todos'>
+              <Menu.Item name='todos'>
+                <Icon name='tasks' />
+                Tasks
+              </Menu.Item>
             </Link>
           </Sidebar>
           <Sidebar.Pusher dimmed={visible}>
