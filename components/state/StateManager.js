@@ -7,7 +7,11 @@ import createSagaMiddleware from 'redux-saga';
 
 import pageReducers, { initialState as pageInitialState } from '../../store/reducers/pages.js';
 import authReducer, { initialState as authInitialState } from '../../store/reducers/auth.js';
-import { watchAbout, watchAuth } from '../../store/sagas/index.js'
+import {
+  watchAbout,
+  watchAuth,
+  watchTodos
+} from '../../store/sagas/index.js'
 
 
 const rootReducer = combineReducers({
@@ -24,6 +28,7 @@ const store = createStore(
 
 sagaMiddleware.run(watchAbout);
 sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchTodos);
 
 const StateManager = (App) => {
   class StateManagerClass extends Component {
