@@ -16,10 +16,6 @@
       "type": "string",
       "required": true
     },
-    "todos": {
-      "type": "Number",
-      "required": true
-    },
     "done": {
       "type": "Boolean",
       "required": true
