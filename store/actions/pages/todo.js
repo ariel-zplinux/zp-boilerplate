@@ -25,7 +25,7 @@ export const todoListLoad = (data) => {
 
 export const todoListLoaded = (data) => {
   return {
-    type: actionTypes.TODO_LIST_LOAD,
+    type: actionTypes.TODO_LIST_LOADED,
     data
   };
 };

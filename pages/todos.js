@@ -14,13 +14,26 @@ class Todos extends Component {
     super(props);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // after todo created
+    console.log("===PASS componentDidUpdated")
+    if (prevProps.step === "INITIAL" && this.props.step === "TODO_CREATED") {
+      console.log("===PASS todo created componentDidUpdated")
+      this.props.onLoadTodoList();
+    }
+
+  }
+
   render() {
     return (
       <Layout>
         <ResponsiveContainer>
           <div className="zp">
             <TodoInput create={this.props.onTodoCreate}/>
-            <TodoList />
+            <TodoList
+              load={this.props.onLoadTodoList} // USELESS?
+              todos={this.props.todos}
+            />
           </div>
           <style jsx global>{`
             div.zp {
@@ -37,12 +50,17 @@ class Todos extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  // console.log({state})
+  return {
+    step: state.page.step,
+    todos: state.page.todos
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTodoCreate: (data) => dispatch(actions.todoCreate(data))
+    onTodoCreate: (data) => dispatch(actions.todoCreate(data)),
+    onLoadTodoList: (data) => dispatch(actions.todoListLoad(data))
   };
 };
 
